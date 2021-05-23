@@ -91,11 +91,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/RED/mvarela/SocialCode/SocialCode.Domain/SocialCode.Domain.csproj",
+      "projectUniqueName": "/home/RED/mvarela/Backend/SocialCode.Domain/SocialCode.Domain.csproj",
       "projectName": "SocialCode.Domain",
-      "projectPath": "/home/RED/mvarela/SocialCode/SocialCode.Domain/SocialCode.Domain.csproj",
+      "projectPath": "/home/RED/mvarela/Backend/SocialCode.Domain/SocialCode.Domain.csproj",
       "packagesPath": "/home/RED/mvarela/.nuget/packages/",
-      "outputPath": "/home/RED/mvarela/SocialCode/SocialCode.Domain/obj/",
+      "outputPath": "/home/RED/mvarela/Backend/SocialCode.Domain/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/RED/mvarela/.nuget/NuGet/NuGet.Config"

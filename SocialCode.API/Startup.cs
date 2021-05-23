@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using SocialCode.API.Services.Posts;
 using SocialCode.API.Services.Users;
 using SocialCode.Domain.Post;
 using SocialCode.Domain.User;
@@ -46,8 +47,10 @@ namespace SocialCode.API
             services.AddSingleton<IMongoDbContext>(sp => new MongoDbContext(config.MongoDb));
 
             services.AddSingleton<IUserRepository, UserRepository>();
+            services.AddSingleton<IUserService, UserService>();
             
             services.AddSingleton<IPostRepository, PostRepository>();
+            services.AddSingleton<IPostService, PostService>();
 
             
             

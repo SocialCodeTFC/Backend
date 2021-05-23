@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "JT5se934SsdsvJzo2m4dxgUhjqrOuIHqzH1mzcgcJOYIUXeQ16vAFokClAjvul7TrYcbGNnq00GHMHRpqN8Qew==",
+  "dgSpecHash": "weS0c7rWboJrLJewk6WiCnRKIL9sxMLfan9I7JpsKFyBdnDTkvxbZoi4Zk1HlrcbSQbxA1Qf7v3NW406AhYVOA==",
   "success": true,
-  "projectFilePath": "/home/RED/mvarela/SocialCode/SocialCode.API/SocialCode.API.csproj",
+  "projectFilePath": "/home/RED/mvarela/Backend/SocialCode.API/SocialCode.API.csproj",
   "expectedPackageFiles": [
     "/home/RED/mvarela/.nuget/packages/dnsclient/1.4.0/dnsclient.1.4.0.nupkg.sha512",
     "/home/RED/mvarela/.nuget/packages/humanizer.core/2.8.26/humanizer.core.2.8.26.nupkg.sha512",

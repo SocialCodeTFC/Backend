@@ -9484,11 +9484,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/RED/mvarela/SocialCode/SocialCode.API/SocialCode.API.csproj",
+      "projectUniqueName": "/home/RED/mvarela/Backend/SocialCode.API/SocialCode.API.csproj",
       "projectName": "SocialCode.API",
-      "projectPath": "/home/RED/mvarela/SocialCode/SocialCode.API/SocialCode.API.csproj",
+      "projectPath": "/home/RED/mvarela/Backend/SocialCode.API/SocialCode.API.csproj",
       "packagesPath": "/home/RED/mvarela/.nuget/packages/",
-      "outputPath": "/home/RED/mvarela/SocialCode/SocialCode.API/obj/",
+      "outputPath": "/home/RED/mvarela/Backend/SocialCode.API/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/RED/mvarela/.nuget/NuGet/NuGet.Config"
@@ -9502,11 +9502,11 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "/home/RED/mvarela/SocialCode/SocialCode.Domain/SocialCode.Domain.csproj": {
-              "projectPath": "/home/RED/mvarela/SocialCode/SocialCode.Domain/SocialCode.Domain.csproj"
+            "/home/RED/mvarela/Backend/SocialCode.Domain/SocialCode.Domain.csproj": {
+              "projectPath": "/home/RED/mvarela/Backend/SocialCode.Domain/SocialCode.Domain.csproj"
             },
-            "/home/RED/mvarela/SocialCode/SocialCode.Infrastructure/SocialCode.Infrastructure.csproj": {
-              "projectPath": "/home/RED/mvarela/SocialCode/SocialCode.Infrastructure/SocialCode.Infrastructure.csproj"
+            "/home/RED/mvarela/Backend/SocialCode.Infrastructure/SocialCode.Infrastructure.csproj": {
+              "projectPath": "/home/RED/mvarela/Backend/SocialCode.Infrastructure/SocialCode.Infrastructure.csproj"
             }
           }
         }

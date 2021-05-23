@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/RED/mvarela/SocialCode/SocialCode.Infrastructure/SocialCode.Infrastructure.csproj": {}
+    "/home/RED/mvarela/Backend/SocialCode.Infrastructure/SocialCode.Infrastructure.csproj": {}
   },
   "projects": {
-    "/home/RED/mvarela/SocialCode/SocialCode.Domain/SocialCode.Domain.csproj": {
+    "/home/RED/mvarela/Backend/SocialCode.Domain/SocialCode.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/RED/mvarela/SocialCode/SocialCode.Domain/SocialCode.Domain.csproj",
+        "projectUniqueName": "/home/RED/mvarela/Backend/SocialCode.Domain/SocialCode.Domain.csproj",
         "projectName": "SocialCode.Domain",
-        "projectPath": "/home/RED/mvarela/SocialCode/SocialCode.Domain/SocialCode.Domain.csproj",
+        "projectPath": "/home/RED/mvarela/Backend/SocialCode.Domain/SocialCode.Domain.csproj",
         "packagesPath": "/home/RED/mvarela/.nuget/packages/",
-        "outputPath": "/home/RED/mvarela/SocialCode/SocialCode.Domain/obj/",
+        "outputPath": "/home/RED/mvarela/Backend/SocialCode.Domain/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/RED/mvarela/.nuget/NuGet/NuGet.Config"
@@ -60,14 +60,14 @@
         }
       }
     },
-    "/home/RED/mvarela/SocialCode/SocialCode.Infrastructure/SocialCode.Infrastructure.csproj": {
+    "/home/RED/mvarela/Backend/SocialCode.Infrastructure/SocialCode.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/RED/mvarela/SocialCode/SocialCode.Infrastructure/SocialCode.Infrastructure.csproj",
+        "projectUniqueName": "/home/RED/mvarela/Backend/SocialCode.Infrastructure/SocialCode.Infrastructure.csproj",
         "projectName": "SocialCode.Infrastructure",
-        "projectPath": "/home/RED/mvarela/SocialCode/SocialCode.Infrastructure/SocialCode.Infrastructure.csproj",
+        "projectPath": "/home/RED/mvarela/Backend/SocialCode.Infrastructure/SocialCode.Infrastructure.csproj",
         "packagesPath": "/home/RED/mvarela/.nuget/packages/",
-        "outputPath": "/home/RED/mvarela/SocialCode/SocialCode.Infrastructure/obj/",
+        "outputPath": "/home/RED/mvarela/Backend/SocialCode.Infrastructure/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/RED/mvarela/.nuget/NuGet/NuGet.Config"
@@ -81,8 +81,8 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "/home/RED/mvarela/SocialCode/SocialCode.Domain/SocialCode.Domain.csproj": {
-                "projectPath": "/home/RED/mvarela/SocialCode/SocialCode.Domain/SocialCode.Domain.csproj"
+              "/home/RED/mvarela/Backend/SocialCode.Domain/SocialCode.Domain.csproj": {
+                "projectPath": "/home/RED/mvarela/Backend/SocialCode.Domain/SocialCode.Domain.csproj"
               }
             }
           }
