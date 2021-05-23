@@ -12,8 +12,8 @@ services:
       - mongodb_data_container:/data/db
     
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: rootPass
+      MONGO_INITDB_ROOT_USERNAME: socialCode
+      MONGO_INITDB_ROOT_PASSWORD: password
       MONGO_INITDB_DATABASE: SocialCode
       
   api.socialCode:
@@ -30,12 +30,10 @@ services:
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - ASPNETCORE_Kestrel__Certificates__Default__Password=password
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/localhost.pfx
-      - ASPNETCORE_HTTPS_PORT=433
-     
+      - MongoDB_Host=mongo.SocialCode
     volumes:
       - ./cert/:/https/
-    depends_on:
-      - mongo.SocialCode
+    
         
       
 volumes:

@@ -23,7 +23,7 @@ namespace SocialCode.Infrastructure.Repositories
         
         public async Task<Post> GetPostById(string id)
         {
-            var post = await _context.Posts.FindAsync(e => e.Id == id);
+            var post = await _context.Posts.FindAsync(p => p.Id == id);
             return await post.FirstOrDefaultAsync();
         }
 

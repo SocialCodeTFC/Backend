@@ -16,3 +16,12 @@
 /home/RED/mvarela/SocialCode/SocialCode.Domain/obj/Debug/netcoreapp3.1/SocialCode.Domain.csproj.CoreCompileInputs.cache
 /home/RED/mvarela/SocialCode/SocialCode.Domain/obj/Debug/netcoreapp3.1/SocialCode.Domain.dll
 /home/RED/mvarela/SocialCode/SocialCode.Domain/obj/Debug/netcoreapp3.1/SocialCode.Domain.pdb
+/home/RED/mvarela/Backend/SocialCode.Domain/bin/Debug/netcoreapp3.1/SocialCode.Domain.deps.json
+/home/RED/mvarela/Backend/SocialCode.Domain/bin/Debug/netcoreapp3.1/SocialCode.Domain.dll
+/home/RED/mvarela/Backend/SocialCode.Domain/bin/Debug/netcoreapp3.1/SocialCode.Domain.pdb
+/home/RED/mvarela/Backend/SocialCode.Domain/obj/Debug/netcoreapp3.1/SocialCode.Domain.csprojAssemblyReference.cache
+/home/RED/mvarela/Backend/SocialCode.Domain/obj/Debug/netcoreapp3.1/SocialCode.Domain.AssemblyInfoInputs.cache
+/home/RED/mvarela/Backend/SocialCode.Domain/obj/Debug/netcoreapp3.1/SocialCode.Domain.AssemblyInfo.cs
+/home/RED/mvarela/Backend/SocialCode.Domain/obj/Debug/netcoreapp3.1/SocialCode.Domain.csproj.CoreCompileInputs.cache
+/home/RED/mvarela/Backend/SocialCode.Domain/obj/Debug/netcoreapp3.1/SocialCode.Domain.dll
+/home/RED/mvarela/Backend/SocialCode.Domain/obj/Debug/netcoreapp3.1/SocialCode.Domain.pdb

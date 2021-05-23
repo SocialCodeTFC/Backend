@@ -22,3 +22,15 @@
 /home/RED/mvarela/SocialCode/SocialCode.Infrastructure/obj/Debug/netcoreapp3.1/SocialCode.Infrastructure.csproj.CopyComplete
 /home/RED/mvarela/SocialCode/SocialCode.Infrastructure/obj/Debug/netcoreapp3.1/SocialCode.Infrastructure.dll
 /home/RED/mvarela/SocialCode/SocialCode.Infrastructure/obj/Debug/netcoreapp3.1/SocialCode.Infrastructure.pdb
+/home/RED/mvarela/Backend/SocialCode.Infrastructure/obj/Debug/netcoreapp3.1/SocialCode.Infrastructure.csprojAssemblyReference.cache
+/home/RED/mvarela/Backend/SocialCode.Infrastructure/obj/Debug/netcoreapp3.1/SocialCode.Infrastructure.AssemblyInfoInputs.cache
+/home/RED/mvarela/Backend/SocialCode.Infrastructure/obj/Debug/netcoreapp3.1/SocialCode.Infrastructure.AssemblyInfo.cs
+/home/RED/mvarela/Backend/SocialCode.Infrastructure/obj/Debug/netcoreapp3.1/SocialCode.Infrastructure.csproj.CoreCompileInputs.cache
+/home/RED/mvarela/Backend/SocialCode.Infrastructure/obj/Debug/netcoreapp3.1/SocialCode.Infrastructure.dll
+/home/RED/mvarela/Backend/SocialCode.Infrastructure/obj/Debug/netcoreapp3.1/SocialCode.Infrastructure.pdb
+/home/RED/mvarela/Backend/SocialCode.Infrastructure/bin/Debug/netcoreapp3.1/SocialCode.Infrastructure.deps.json
+/home/RED/mvarela/Backend/SocialCode.Infrastructure/bin/Debug/netcoreapp3.1/SocialCode.Infrastructure.dll
+/home/RED/mvarela/Backend/SocialCode.Infrastructure/bin/Debug/netcoreapp3.1/SocialCode.Infrastructure.pdb
+/home/RED/mvarela/Backend/SocialCode.Infrastructure/bin/Debug/netcoreapp3.1/SocialCode.Domain.dll
+/home/RED/mvarela/Backend/SocialCode.Infrastructure/bin/Debug/netcoreapp3.1/SocialCode.Domain.pdb
+/home/RED/mvarela/Backend/SocialCode.Infrastructure/obj/Debug/netcoreapp3.1/SocialCode.Infrastructure.csproj.CopyComplete

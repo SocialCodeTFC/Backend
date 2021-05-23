@@ -9,7 +9,7 @@ namespace SocialCode.Domain.Post
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
+        public string Id { get; }
         public string Title { get; set; }
         public IEnumerable<Tag.Tag> Tags;
         public string Description { get; set; }

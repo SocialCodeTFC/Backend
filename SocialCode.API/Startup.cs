@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using SocialCode.API.Controllers;
 using SocialCode.API.Services.Posts;
 using SocialCode.API.Services.Users;
 using SocialCode.Domain.Post;
@@ -51,8 +52,6 @@ namespace SocialCode.API
             
             services.AddSingleton<IPostRepository, PostRepository>();
             services.AddSingleton<IPostService, PostService>();
-
-            
             
             
             services.AddAuthentication(x =>
