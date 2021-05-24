@@ -53,10 +53,17 @@ namespace SocialCode.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> ModifyUser(string id, [FromBody] UserRequest updatedUserRequest)
+        public async Task<IActionResult> ModifyUser(string id, [FromBody] UserDataRequest updatedUserDataRequest)
         {
-            var updatedUserResponse = await _userService.ModifyUser(id, updatedUserRequest);
+            var updatedUserResponse = await _userService.ModifyUserData(id, updatedUserDataRequest);
             return new OkObjectResult(updatedUserResponse);
+        }
+
+        [HttpGet("current")]
+        public async Task<IActionResult> GetCurrentUser()
+        {
+            var user = await _userService.GetCurrentUser();
+            return new OkObjectResult(user);
         }
     }
 }

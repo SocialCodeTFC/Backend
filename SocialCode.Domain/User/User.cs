@@ -14,9 +14,9 @@ namespace SocialCode.Domain.User
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
-        public string Token { get; set; }
         
-        public IEnumerable<Post.Post> PublishedPosts { get; set; }
+        [BsonIgnore]
+        public string Token { get; set; }
         public IEnumerable<Post.Post> LikedPosts { get; set; }
         public IEnumerable<Post.Post> PurchasedPosts { get; set; }
         public IEnumerable<Comment.Comment> Comments { get; set; }

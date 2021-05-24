@@ -8,9 +8,9 @@ namespace SocialCode.API.Services.Converters
 {
     public static class UserConverter
     {
-        public static UserResponse User_ToUserResponse(User user)
+        public static UserDataResponse User_ToUserResponse(User user)
         {
-            return new UserResponse
+            return new UserDataResponse
             {
                 Id = user?.Id,
                 Email = user?.Email,
@@ -20,16 +20,16 @@ namespace SocialCode.API.Services.Converters
             };
         }
 
-        public static User UserRequest_ToUser(UserRequest userRequest)
+        public static User UserRequest_ToUser(UserDataRequest userDataRequest)
         {
             return new User()
             {
-                Id = userRequest?.Id,
-                Email = userRequest?.Email,
-                Username = userRequest?.UserName,
-                FirstName = userRequest?.FirstName,
-                LastName = userRequest?.LastName,
-                Password = userRequest?.Password
+                Id = userDataRequest?.Id,
+                Email = userDataRequest?.Email,
+                Username = userDataRequest?.UserName,
+                FirstName = userDataRequest?.FirstName,
+                LastName = userDataRequest?.LastName,
+                Password = userDataRequest?.Password
             };
         }
 

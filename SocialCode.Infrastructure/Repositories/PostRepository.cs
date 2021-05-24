@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 using SocialCode.Domain.Post;
@@ -41,9 +42,14 @@ namespace SocialCode.Infrastructure.Repositories
             var post = await deletePostResult.FirstOrDefaultAsync();
             if ( post is null) return null;
             await _context.Posts.DeleteOneAsync(p => p.Id == id);
-
             return post;
+        }
 
+        public async Task<IEnumerable<Post>> GetAllUserPosts(string userId)
+        {
+            var result = await _context.Posts.FindAsync(p => p.AuthorID == userId);
+            var postsList = await result.ToListAsync();
+            return postsList.Count <= 0 ? null : postsList;
         }
     }
 }

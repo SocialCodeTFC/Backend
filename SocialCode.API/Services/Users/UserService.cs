@@ -1,4 +1,7 @@
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using SocialCode.API.Services.Converters;
 using SocialCode.API.Services.Requests.Users;
@@ -13,15 +16,17 @@ namespace SocialCode.API.Services.Users
         private readonly IUserRepository _userRepository;
         private readonly string _key;
         private readonly IConfiguration _config;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         
-        public UserService(IUserRepository userRepository, IConfiguration config)
+        public UserService(IUserRepository userRepository, IConfiguration config, IHttpContextAccessor context)
         {
             _userRepository = userRepository;
             _config = config;
             _key = _config.GetSection("KwtKey").ToString();
+            _httpContextAccessor = context;
         }
         
-        public async Task<UserResponse> GetUserById(string id)
+        public async Task<UserDataResponse> GetUserById(string id)
         {
             
             var user = await _userRepository.GetUserById(id);
@@ -48,7 +53,7 @@ namespace SocialCode.API.Services.Users
 
            return authResponse ?? null;
         }
-        public async Task<UserResponse> DeleteUser(string id)
+        public async Task<UserDataResponse> DeleteUser(string id)
         {
             var user = await _userRepository.GetUserById(id);
             
@@ -58,9 +63,23 @@ namespace SocialCode.API.Services.Users
 
             return UserConverter.User_ToUserResponse(deletedUser);
         }
-        public async Task<UserResponse> ModifyUser(string id, UserRequest updatedUserRequest)
+        
+        public async Task<UserDataResponse> ModifyUserData(string id, UserDataRequest updatedUserDataRequest)
         {
-            var updatedUser = UserConverter.UserRequest_ToUser(updatedUserRequest);
+            var updatedUser = UserConverter.UserRequest_ToUser(updatedUserDataRequest);
+            var updateResult = await _userRepository.ModifyUser(id, updatedUser);
+            return UserConverter.User_ToUserResponse(updateResult);
+        }
+
+        public async Task<User> GetCurrentUser()
+        {
+            var currentUserId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var user = await _userRepository.GetUserById(currentUserId);
+            return user ?? null;
+        }
+        
+        public async Task<UserDataResponse> UpdateUser(string id, User updatedUser)
+        {
             var updateResult = await _userRepository.ModifyUser(id, updatedUser);
             return UserConverter.User_ToUserResponse(updateResult);
         }

@@ -9,15 +9,20 @@ namespace SocialCode.Domain.Post
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; }
+        public string Id { get; set; }
         public string Title { get; set; }
-        public IEnumerable<Tag.Tag> Tags;
+        
+        public List<string> Tags;
         public string Description { get; set; }
         public string Timestamp { get; set; }
         public string Code { get; set; }
         public bool IsFree { get; set; }
         public int Price { get; set; }
-        public User.User Author { get; set; }
+        
+        public string AuthorID { get; set; }
+        
         public IEnumerable<Comment.Comment> Comments { get; set; }
+
+        
     }
 }

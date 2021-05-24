@@ -11,8 +11,10 @@ namespace SocialCode.API.Services.Requests.Posts
         public string Code { get; set; }
         public bool IsFree { get; set; }
         public int Price { get; set; }
-        public IEnumerable<string> TagsId { get; set; }
-        public string AuthorId { get; set; }
+        public List<string> Tags { get; set; }
+        
+        
+
         public IEnumerable<string> CommentsId { get; set; }
     }
 }

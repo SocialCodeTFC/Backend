@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -45,13 +46,20 @@ namespace SocialCode.API
 
             Configuration.Bind(config);
             
+            
+            
             services.AddSingleton<IMongoDbContext>(sp => new MongoDbContext(config.MongoDb));
+
+            services.AddHttpContextAccessor();
 
             services.AddSingleton<IUserRepository, UserRepository>();
             services.AddSingleton<IUserService, UserService>();
             
             services.AddSingleton<IPostRepository, PostRepository>();
             services.AddSingleton<IPostService, PostService>();
+            
+            
+
             
             
             services.AddAuthentication(x =>

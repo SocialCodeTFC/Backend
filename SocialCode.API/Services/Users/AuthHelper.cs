@@ -21,7 +21,8 @@ namespace SocialCode.API.Services.Users
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                    new Claim(ClaimTypes.Email, user.Email)
+                    new Claim(ClaimTypes.Email, user.Email),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id)
                 }),
                 Expires = DateTime.Now.AddHours(2),
                 SigningCredentials =
