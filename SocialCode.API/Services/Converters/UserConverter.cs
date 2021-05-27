@@ -39,11 +39,11 @@ namespace SocialCode.API.Services.Converters
             {
                 Id = user?.Id,
                 Token = user?.Token,
-                Username = user?.Username
+                Username = user?.Username,
+                RefreshToken = user?.RefreshToken
             };
         }
         
-
         public static User RegisterRequest_ToUser(RegisterRequest registerRequest)
         {
             return new User()

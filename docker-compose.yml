@@ -34,8 +34,6 @@ services:
     volumes:
       - ./cert/:/https/
     
-        
-      
 volumes:
   mongodb_data_container:
   

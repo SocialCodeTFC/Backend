@@ -40,7 +40,7 @@ namespace SocialCode.API.Controllers
         }
 
         [HttpPut("edit/{id:length(24)}")]
-        public async Task<IActionResult> EditPost([FromBody] PostRequest editedPost, string id)
+        public async Task<IActionResult> ModifyPost([FromBody] PostRequest editedPost, string id)
         {
             var modifiedPost = await _postService.ModifyPost(id, editedPost);
             return new ObjectResult(modifiedPost);
@@ -52,5 +52,7 @@ namespace SocialCode.API.Controllers
             var posts = await _postService.GetAllUserPosts(userId);
             return new OkObjectResult(posts);
         }
+        
+        //TODO: Paginated Post
     }
 }

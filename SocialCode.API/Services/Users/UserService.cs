@@ -1,88 +1,83 @@
-using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using SocialCode.API.Services.Converters;
+using SocialCode.API.Services.Requests;
 using SocialCode.API.Services.Requests.Users;
-using SocialCode.API.Services.Requests.Users.Auth;
-using SocialCode.API.Services.Requests.Users.Register;
 using SocialCode.Domain.User;
-
 namespace SocialCode.API.Services.Users
 {
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-        private readonly string _key;
-        private readonly IConfiguration _config;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        
-        public UserService(IUserRepository userRepository, IConfiguration config, IHttpContextAccessor context)
+        public UserService(IUserRepository userRepository, IConfiguration config)
         {
             _userRepository = userRepository;
-            _config = config;
-            _key = _config.GetSection("KwtKey").ToString();
-            _httpContextAccessor = context;
         }
-        
-        public async Task<UserDataResponse> GetUserById(string id)
+        public async Task<SocialCodeResult<UserDataResponse>> GetUserById(string id)
         {
+            //Validator
+            var scResult = new SocialCodeResult<UserDataResponse>();
             
             var user = await _userRepository.GetUserById(id);
-           
-           return UserConverter.User_ToUserResponse(user);
-        }
-        public async Task<AuthResponse> Register(RegisterRequest register)
-        {
-            var userToInsert = UserConverter.RegisterRequest_ToUser(register);
             
-            var insertedUser = await _userRepository.Register(userToInsert);
-
-            var insertedAuthenticatedUser = AuthHelper.Authenticate(insertedUser, _key);
-
-            return insertedAuthenticatedUser;
+            if (user is null)
+            {
+                scResult.ErrorMsg = "User not found";
+                scResult.Error = SocialCodeError.NotFound;
+                return scResult;
+            }
+            
+            scResult.Value =  UserConverter.User_ToUserResponse(user);
+            return scResult;
         }
-        public async Task<AuthResponse> Authenticate(AuthRequest authRequest)
+        public async Task<SocialCodeResult<UserDataResponse>> DeleteUser(string id)
         {
-           var user = await _userRepository.Authenticate(authRequest.Username, authRequest.Password);
-           
-           if (user is null) return null;
-           
-           var authResponse = AuthHelper.Authenticate(user, _key);
-
-           return authResponse ?? null;
-        }
-        public async Task<UserDataResponse> DeleteUser(string id)
-        {
+            //Validator
+            var scResult = new SocialCodeResult<UserDataResponse>();
+            
             var user = await _userRepository.GetUserById(id);
-            
-            if (user is null) return null;
+
+            if (user is null)
+            {
+                scResult.ErrorMsg = "User not found";
+                scResult.Error = SocialCodeError.NotFound;
+                return scResult;
+            }
 
             var deletedUser = await _userRepository.DeleteUser(id);
 
-            return UserConverter.User_ToUserResponse(deletedUser);
+            if (deletedUser is null)
+            {
+                scResult.Error = SocialCodeError.Generic;
+                scResult.ErrorMsg = "Failed to delete user";
+            }
+            scResult.Value = UserConverter.User_ToUserResponse(deletedUser);
+            return scResult;
+            
         }
-        
-        public async Task<UserDataResponse> ModifyUserData(string id, UserDataRequest updatedUserDataRequest)
+        public async Task<SocialCodeResult<UserDataResponse>> ModifyUserData(string id, UserDataRequest updatedUserDataRequest)
         {
-            var updatedUser = UserConverter.UserRequest_ToUser(updatedUserDataRequest);
-            var updateResult = await _userRepository.ModifyUser(id, updatedUser);
-            return UserConverter.User_ToUserResponse(updateResult);
-        }
+            var scResult = new SocialCodeResult<UserDataResponse>();
 
-        public async Task<User> GetCurrentUser()
-        {
-            var currentUserId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var user = await _userRepository.GetUserById(currentUserId);
-            return user ?? null;
-        }
-        
-        public async Task<UserDataResponse> UpdateUser(string id, User updatedUser)
-        {
+            if (updatedUserDataRequest is null)
+            {
+                scResult.ErrorMsg = "Invalid/null request";
+                scResult.Error = SocialCodeError.BadRequest;
+                return scResult;
+            }
+            
+            var updatedUser = UserConverter.UserRequest_ToUser(updatedUserDataRequest);
+            
             var updateResult = await _userRepository.ModifyUser(id, updatedUser);
-            return UserConverter.User_ToUserResponse(updateResult);
+            
+            if (updateResult is null)
+            {
+                scResult.ErrorMsg = "Failed to update user data";
+                scResult.Error = SocialCodeError.Generic;
+                return scResult;
+            }
+            scResult.Value = UserConverter.User_ToUserResponse(updateResult);
+            return scResult;
         }
-        
     }
 }

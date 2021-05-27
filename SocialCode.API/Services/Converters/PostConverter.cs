@@ -10,6 +10,8 @@ namespace SocialCode.API.Services.Converters
     {
         public static Post PostRequest_ToPost(PostRequest postRequest)
         {
+            if (postRequest is null) return null;
+                    
             return new Post
             {
                 Title = postRequest.Title,
@@ -17,7 +19,7 @@ namespace SocialCode.API.Services.Converters
                 Description = postRequest.Description,
                 Price = postRequest.Price,
                 IsFree = postRequest.IsFree,
-                Tags = postRequest.Tags
+                Tags = postRequest.Tags.ToList()
             };
         }
         public static PostResponse Post_ToPostResponse(Post post)

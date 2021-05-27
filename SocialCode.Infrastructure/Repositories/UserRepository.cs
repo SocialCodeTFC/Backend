@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 using SocialCode.Domain.User;
@@ -9,14 +10,18 @@ namespace SocialCode.Infrastructure.Repositories
     public class UserRepository :IUserRepository
     {
         private readonly IMongoDbContext _context;
-        
         public UserRepository(IMongoDbContext context)
         {
             _context = context;
         }
         
-        public async Task<User> Register(User user)
+        public async Task<User> Insert(User user)
         {
+            var sameUsernameUser = await _context.Users.FindAsync(u => u.Username == user.Username);
+            var sameEmailUser = await _context.Users.FindAsync(u => u.Email == user.Email);
+
+            if (sameEmailUser.FirstOrDefault() is not null || sameUsernameUser.FirstOrDefault() is not null) return null;
+            
             await _context.Users.InsertOneAsync(user);
             return user;
         }
@@ -26,19 +31,12 @@ namespace SocialCode.Infrastructure.Repositories
             var user = await _context.Users.FindAsync(e => e.Id == id);
             return await user.FirstOrDefaultAsync();
         }
-        
-        public async Task<User> Authenticate(string username, string password)
-        {
-            var result = await _context.Users.FindAsync(x => x.Username == username && x.Password == password);
-            var user = await result.FirstOrDefaultAsync();
-            return user ?? null;
-        }
 
         public async Task<User> DeleteUser(string id)
         {
             var toDeleteUser = await _context.Users.FindAsync(x => x.Id == id);
             
-            if (toDeleteUser is null) return null;
+            if (toDeleteUser.FirstOrDefault() is null) return null;
             
             var deleteResult = await _context.Users.DeleteOneAsync(x => x.Id == id);
             
@@ -49,8 +47,24 @@ namespace SocialCode.Infrastructure.Repositories
 
         public async Task<User> ModifyUser(string id, User updatedUser)
         {
-             await _context.Users.ReplaceOneAsync(x => x.Id == id, updatedUser, new ReplaceOptions{IsUpsert = false});
+            try
+            {
+                await _context.Users.ReplaceOneAsync(x => x.Id == id, updatedUser,
+                    new ReplaceOptions {IsUpsert = false});
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+            
             return updatedUser;
+        }
+        
+        public async Task<User> GetByUsername(string username)
+        {
+            var result = await _context.Users.FindAsync(x => x.Username == username);
+            var user = await result.FirstOrDefaultAsync();
+            return user;
         }
     }
 }

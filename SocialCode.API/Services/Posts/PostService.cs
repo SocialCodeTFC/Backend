@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SocialCode.API.Services.Converters;
+using SocialCode.API.Services.Requests;
 using SocialCode.API.Services.Requests.Posts;
 using SocialCode.API.Services.Users;
 using SocialCode.Domain.Post;
+using SocialCode.Domain.User;
 
 
 namespace SocialCode.API.Services.Posts
@@ -12,28 +14,45 @@ namespace SocialCode.API.Services.Posts
     public class PostService :IPostService
     {
 
-        private readonly IUserService _userService;
+        private readonly IUserRepository _userRepository;
         private readonly IPostRepository _postRepository;
 
-        public PostService(IPostRepository repository, IUserService userService)
+        public PostService(IPostRepository repository, IUserRepository userRepository)
         {
             _postRepository = repository;
-            _userService = userService;
+            _userRepository = userRepository;
         }
-        public async Task<PostResponse> Insert(PostRequest postRequest)
+        
+        public async Task<SocialCodeResult<PostResponse>> Insert(PostRequest postRequest)
         {
+            var scResult = new SocialCodeResult<PostResponse>();
+            
+            //Validate postRequest with post RequestValidator
+            
             var post = PostConverter.PostRequest_ToPost(postRequest);
             
-            post.Timestamp = DateTime.Now.ToString("g");
-            var author = await _userService.GetCurrentUser();
-            
-            if (author is null) return null;
+            var author = await _userRepository.GetUserById(postRequest.Author_Id);
+
+            if (author is null)
+            {
+                scResult.Error = SocialCodeError.BadRequest;
+                scResult.ErrorMsg = "User ID doesn't match with any DB ID";
+                return scResult;
+            }
             
             post.AuthorID = author.Id;
+            post.Timestamp = DateTime.Now.ToString("g");
             
             var insertedPost = await _postRepository.Insert(post);
-            
-            return insertedPost is null ? null : PostConverter.Post_ToPostResponse(post);
+
+            if (insertedPost is null)
+            {
+                scResult.Error = SocialCodeError.BadRequest;
+                scResult.ErrorMsg = "Failed to save Post";
+                return scResult;
+            }
+            scResult.Value = PostConverter.Post_ToPostResponse(post);
+            return scResult;
         }
 
         public async Task<PostResponse> GetPostById(string id)

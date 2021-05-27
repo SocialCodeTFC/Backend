@@ -17,8 +17,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using SocialCode.API.Controllers;
+using SocialCode.API.Services.Auth;
+using SocialCode.API.Services.Comments;
 using SocialCode.API.Services.Posts;
 using SocialCode.API.Services.Users;
+using SocialCode.Domain.Comment;
 using SocialCode.Domain.Post;
 using SocialCode.Domain.User;
 using SocialCode.Infrastructure.Config;
@@ -41,44 +44,51 @@ namespace SocialCode.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddHttpContextAccessor();
             
             var config = new ServerConfig();
-
             Configuration.Bind(config);
-            
-            
-            
             services.AddSingleton<IMongoDbContext>(sp => new MongoDbContext(config.MongoDb));
-
-            services.AddHttpContextAccessor();
-
+            
             services.AddSingleton<IUserRepository, UserRepository>();
             services.AddSingleton<IUserService, UserService>();
             
             services.AddSingleton<IPostRepository, PostRepository>();
             services.AddSingleton<IPostService, PostService>();
+
+            services.AddSingleton<ICommentRepository, CommentRepository>();
+            services.AddSingleton<ICommentService, CommentService>();
             
+            services.AddSingleton<IAuthService, AuthService>();
             
 
+            var key = Encoding.ASCII.GetBytes(Configuration.GetSection("JwtKey").ToString());
+            
+            var tokenValidationParams = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ValidateLifetime = true,
+                RequireExpirationTime = false
+            };
+            
             
             
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 
             }).AddJwtBearer(x =>
             {
                 x.RequireHttpsMetadata = false;
                 x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("JwtKey").ToString())),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
+                x.TokenValidationParameters = tokenValidationParams;
             });
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -89,10 +99,12 @@ namespace SocialCode.API
                 app.UseDeveloperExceptionPage();
             }
             
-            app.UseAuthentication();
+            
             
             app.UseRouting();
-
+            
+            app.UseAuthentication();
+            
             app.UseAuthorization();
             
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });

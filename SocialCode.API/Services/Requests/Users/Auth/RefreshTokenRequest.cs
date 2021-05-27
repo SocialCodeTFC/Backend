@@ -1,11 +1,9 @@
 namespace SocialCode.API.Services.Requests.Users.Auth
 {
-    public class AuthResponse
+    public class RefreshTokenRequest
     {
-        public string Id { get; set; }
-        public string Username { get; set; }
+        public string UserId { get; set; }
         public string Token { get; set; }
-        
         public string RefreshToken { get; set; }
     }
 }
