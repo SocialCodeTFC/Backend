@@ -16,16 +16,13 @@ namespace SocialCode.API.Services.Posts
 {
     public class PostService :IPostService
     {
-
         private readonly IUserRepository _userRepository;
         private readonly IPostRepository _postRepository;
-
         public PostService(IPostRepository repository, IUserRepository userRepository)
         {
             _postRepository = repository;
             _userRepository = userRepository;
         }
-        
         public async Task<SocialCodeResult<PostResponse>> Insert(PostRequest postRequest)
         {
             var scResult = new SocialCodeResult<PostResponse>();
@@ -63,7 +60,6 @@ namespace SocialCode.API.Services.Posts
             scResult.Value = PostConverter.Post_ToPostResponse(post);
             return scResult;
         }
-
         public async Task<SocialCodeResult<PostResponse>> GetPostById(string id)
         {
             var scResult = new SocialCodeResult<PostResponse>();
@@ -94,7 +90,6 @@ namespace SocialCode.API.Services.Posts
             scResult.ErrorTypes = SocialCodeErrorTypes.InvalidOperation;
             return scResult;
         }
-
         public async Task<SocialCodeResult<PostResponse>> DeletePost(string id)
         {
             var scResult = new SocialCodeResult<PostResponse>();
@@ -137,7 +132,6 @@ namespace SocialCode.API.Services.Posts
             }
             return scResult;
         }
-
         public async Task<SocialCodeResult<PostResponse>> ModifyPost(string id, PostRequest postRequest)
         {
             var scResult = new SocialCodeResult<PostResponse>();
@@ -154,8 +148,17 @@ namespace SocialCode.API.Services.Posts
                 scResult.ErrorTypes = SocialCodeErrorTypes.BadRequest;
                 scResult.ErrorMsg = "Invalid updatedPostData in the request";
             }
+
+            var originalPost = await _postRepository.GetPostById(id);
+
+            if (originalPost is null)
+            {
+                scResult.ErrorMsg = "Post not found!";
+                scResult.ErrorTypes = SocialCodeErrorTypes.NotFound;
+                return scResult;
+            }
             
-            var post = PostConverter.PostRequest_ToPost(postRequest);
+            var post = PostConverter.PostRequest_ToModifiedPost(postRequest, originalPost);
 
             try
             {
@@ -186,7 +189,6 @@ namespace SocialCode.API.Services.Posts
             return scResult;
             
         }
-
         public async Task<SocialCodeResult<IEnumerable<PostResponse>>> GetAllUserPosts(string userId)
         {
             var scResult = new SocialCodeResult<IEnumerable<PostResponse>>();
@@ -206,21 +208,21 @@ namespace SocialCode.API.Services.Posts
                 return scResult;
             }
 
-            posts = RemoveDeletedPostsFromList(posts);
+            var filteredPosts = RemoveDeletedPostsFromList(posts);
             
-            if (CanReturnManyPosts(posts))
+            if (CanReturnManyPosts(filteredPosts))
             {
-                scResult.Value = PostConverter.PostList_ToPostResponseList(posts);
+                scResult.Value = PostConverter.PostList_ToPostResponseList(filteredPosts);
                 return scResult;
             }
 
-            scResult.ErrorMsg = "Any";
+            scResult.ErrorMsg = "Failed to retrieve posts!";
             return scResult;
         }
-
-        //PageResult with latestPosts
         
+        //PageResult with latestPosts
         //PageResult with followedUser latest posts
+        
         private static bool CanReturnPost(Post post)
         {
             return !post.IsDeleted;
@@ -233,16 +235,9 @@ namespace SocialCode.API.Services.Posts
         }
         private static IEnumerable<Post> RemoveDeletedPostsFromList(IEnumerable<Post> posts)
         {
-            foreach (var post in posts)
-            {
-                if (post.IsDeleted is true)
-                {
-                    posts.ToList().Remove(post);
-                }
-            }
+            var filteredList = posts.Where(p => p.IsDeleted == false).ToList();
 
-            return posts;
+            return filteredList;
         }
-        
     }
 }

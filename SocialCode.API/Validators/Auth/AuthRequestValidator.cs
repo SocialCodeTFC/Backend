@@ -11,7 +11,8 @@ namespace SocialCode.API.Validators.Auth
         }
         public static bool IsValidRegisterRequest(RegisterRequest registerRequest)
         {
-            return registerRequest is { } && registerRequest.Email.Contains("@") && registerRequest.Password.Length > 4 && registerRequest.Password.Equals(registerRequest.RepeatPassword) && registerRequest.UserName.Contains("#");
+            
+            return registerRequest.Email.Contains("@") && registerRequest.Password.Length > 4 && registerRequest.Password.Equals(registerRequest.RepeatPassword) && registerRequest.UserName.Contains("#");
         }
     }
 }

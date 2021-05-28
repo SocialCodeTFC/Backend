@@ -7,18 +7,23 @@ namespace SocialCode.API.Converters
 {
     public static class PostConverter
     {
-        public static Post PostRequest_ToPost(PostRequest postRequest)
+        public static Post PostRequest_ToModifiedPost(PostRequest postRequest, Post originalPost)
         {
-            if (postRequest is null) return null;
+            if (postRequest is null || originalPost is null) return null;
                     
             return new Post
             {
+                Id = originalPost.Id,
                 Title = postRequest.Title,
                 Code = postRequest.Code,
                 Description = postRequest.Description,
                 Price = postRequest.Price,
                 IsFree = postRequest.IsFree,
-                Tags = postRequest.Tags.ToList()
+                Tags = postRequest.Tags.ToList(),
+                AuthorID = originalPost.AuthorID,
+                IsDeleted = originalPost.IsDeleted,
+                Comments = originalPost.Comments,
+                Timestamp = originalPost.Timestamp
             };
         }
         public static PostResponse Post_ToPostResponse(Post post)
@@ -40,6 +45,20 @@ namespace SocialCode.API.Converters
         {
             var postResponseList = postsList.Select(Post_ToPostResponse).ToList();
             return postResponseList;
+        }
+
+        public static Post PostRequest_ToPost(PostRequest postRequest)
+        {
+            return new Post
+            {
+                Title = postRequest.Title,
+                Code = postRequest.Code,
+                Description = postRequest.Description,
+                Price = postRequest.Price,
+                IsFree = postRequest.IsFree,
+                Tags = postRequest.Tags.ToList(),
+                IsDeleted = false
+            };
         }
     }
 }

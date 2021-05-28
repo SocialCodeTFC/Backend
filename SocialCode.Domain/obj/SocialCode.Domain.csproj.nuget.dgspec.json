@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/home/RED/mvarela/Backend/SocialCode.Domain/SocialCode.Domain.csproj": {}
+    "/home/martin/Backend/SocialCode.Domain/SocialCode.Domain.csproj": {}
   },
   "projects": {
-    "/home/RED/mvarela/Backend/SocialCode.Domain/SocialCode.Domain.csproj": {
+    "/home/martin/Backend/SocialCode.Domain/SocialCode.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/RED/mvarela/Backend/SocialCode.Domain/SocialCode.Domain.csproj",
+        "projectUniqueName": "/home/martin/Backend/SocialCode.Domain/SocialCode.Domain.csproj",
         "projectName": "SocialCode.Domain",
-        "projectPath": "/home/RED/mvarela/Backend/SocialCode.Domain/SocialCode.Domain.csproj",
-        "packagesPath": "/home/RED/mvarela/.nuget/packages/",
-        "outputPath": "/home/RED/mvarela/Backend/SocialCode.Domain/obj/",
+        "projectPath": "/home/martin/Backend/SocialCode.Domain/SocialCode.Domain.csproj",
+        "packagesPath": "/home/martin/.nuget/packages/",
+        "outputPath": "/home/martin/Backend/SocialCode.Domain/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/RED/mvarela/.nuget/NuGet/NuGet.Config"
+          "/home/martin/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -56,7 +56,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/home/RED/mvarela/dotnet/sdk/3.1.408/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/home/martin/dotnet/sdk/3.1.408/RuntimeIdentifierGraph.json"
         }
       }
     }
