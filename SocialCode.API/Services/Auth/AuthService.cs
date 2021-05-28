@@ -7,12 +7,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using SocialCode.API.Services.Converters;
-using SocialCode.API.Services.Requests;
-using SocialCode.API.Services.Requests.Users.Auth;
-using SocialCode.API.Services.Requests.Users.Register;
+using SocialCode.API.Converters;
+using SocialCode.API.Requests;
+using SocialCode.API.Requests.Users.Auth;
+using SocialCode.API.Requests.Users.Register;
 using SocialCode.API.Services.Users;
-using SocialCode.API.Services.Validators;
+using SocialCode.API.Validators.Auth;
 using SocialCode.Domain.User;
 
 namespace SocialCode.API.Services.Auth
@@ -35,7 +35,7 @@ namespace SocialCode.API.Services.Auth
             //Check if is valid request 
             if (!AuthRequestValidator.IsValidLoginRequest(loginRequest))
             {
-                scResult.Error = SocialCodeError.BadRequest;
+                scResult.ErrorTypes = SocialCodeErrorTypes.BadRequest;
                 return scResult;
             }
 
@@ -45,14 +45,14 @@ namespace SocialCode.API.Services.Auth
             
             if (user is null)
             {
-                scResult.Error = SocialCodeError.NotFound;
+                scResult.ErrorTypes = SocialCodeErrorTypes.NotFound;
                 scResult.ErrorMsg = "User not found!";
                 return scResult;
             }
             
             if (!PasswordUtils.IsValidPassword(user.Password, loginRequest.Password))
             {
-                scResult.Error = SocialCodeError.NotFound;
+                scResult.ErrorTypes = SocialCodeErrorTypes.NotFound;
                 scResult.ErrorMsg = "The user password provided is not correct!";
                 return scResult;
             }
@@ -61,7 +61,7 @@ namespace SocialCode.API.Services.Auth
             var tokens = GenerateNewTokens(user);
             if (tokens.FirstOrDefault() is null || tokens.LastOrDefault() is null)
             {
-                scResult.Error = SocialCodeError.Generic;
+                scResult.ErrorTypes = SocialCodeErrorTypes.Generic;
                 scResult.ErrorMsg = "Failed creating user tokens";
                 return scResult;
             }
@@ -90,7 +90,7 @@ namespace SocialCode.API.Services.Auth
 
             if (!AuthRequestValidator.IsValidRegisterRequest(registerRequest))
             {
-                scResult.Error = SocialCodeError.BadRequest;
+                scResult.ErrorTypes = SocialCodeErrorTypes.BadRequest;
                 scResult.ErrorMsg = "Check your username(#), email & password!";
                 return scResult; 
             }
@@ -100,7 +100,7 @@ namespace SocialCode.API.Services.Auth
             
             if (insertedUser is null)
             {
-                scResult.Error = SocialCodeError.Generic;
+                scResult.ErrorTypes = SocialCodeErrorTypes.Generic;
                 return scResult;
             }
             //Generate user tokens
@@ -109,7 +109,7 @@ namespace SocialCode.API.Services.Auth
             //Validate tokens
             if (userTokens.FirstOrDefault() is null || userTokens.LastOrDefault() is null)
             {
-                scResult.Error = SocialCodeError.Generic; 
+                scResult.ErrorTypes = SocialCodeErrorTypes.Generic; 
                 scResult.ErrorMsg = "Failed creating user tokens";
                 return scResult;
             }
@@ -126,7 +126,7 @@ namespace SocialCode.API.Services.Auth
             var updatedUser = await _userRepository.ModifyUser(insertedUser.Id, insertedUser);
             if (updatedUser is null)
             {
-                scResult.Error = SocialCodeError.Generic;
+                scResult.ErrorTypes = SocialCodeErrorTypes.Generic;
                 return scResult;
             }
             
@@ -147,7 +147,7 @@ namespace SocialCode.API.Services.Auth
             //Validate Token in refreshTokenRequest
             if (!IsValidToken(refreshTokenRequest))
             {
-                scResult.Error = SocialCodeError.BadRequest;
+                scResult.ErrorTypes = SocialCodeErrorTypes.BadRequest;
                 scResult.ErrorMsg = "Invalid request, token is not valid!";
                 return scResult;
             }
@@ -155,14 +155,14 @@ namespace SocialCode.API.Services.Auth
             var user = await _userRepository.GetUserById(refreshTokenRequest.UserId);
             if (user is null)
             {
-                scResult.Error = SocialCodeError.NotFound;
+                scResult.ErrorTypes = SocialCodeErrorTypes.NotFound;
                 scResult.ErrorMsg = "Refresh request ID doesn't match with any user ID in database!";
                 return scResult;
             }
             //Match Betwwen tokenRequest token & user Token
             if (!refreshTokenRequest.RefreshToken.Equals(user.RefreshToken))
             {
-                scResult.Error = SocialCodeError.BadRequest;
+                scResult.ErrorTypes = SocialCodeErrorTypes.BadRequest;
                 scResult.ErrorMsg = "Refresh request Token doesn't match with user Token!";
                 return scResult;
             }
@@ -173,7 +173,7 @@ namespace SocialCode.API.Services.Auth
             //Validate tokens
             if (userTokens.FirstOrDefault() is null || userTokens.LastOrDefault() is null)
             {
-                scResult.Error = SocialCodeError.Generic; 
+                scResult.ErrorTypes = SocialCodeErrorTypes.Generic; 
                 scResult.ErrorMsg = "Failed creating user tokens";
                 return scResult;
             }
@@ -184,7 +184,7 @@ namespace SocialCode.API.Services.Auth
             var updatedUser = await _userRepository.ModifyUser(user.Id, user);
             if (updatedUser is null)
             {
-                scResult.Error = SocialCodeError.Generic; 
+                scResult.ErrorTypes = SocialCodeErrorTypes.Generic; 
                 scResult.ErrorMsg = "Failed updating user tokens";
                 return scResult;
             }

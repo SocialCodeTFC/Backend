@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using SocialCode.API.Services.Converters;
-using SocialCode.API.Services.Requests.Comments;
+using SocialCode.API.Converters;
+using SocialCode.API.Requests.Comments;
 using SocialCode.Domain.Comment;
 
 namespace SocialCode.API.Services.Comments

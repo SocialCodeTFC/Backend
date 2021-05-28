@@ -1,4 +1,4 @@
-namespace SocialCode.API.Services.Requests
+namespace SocialCode.API.Requests
 {
     public class SocialCodeResult<T>
     {
@@ -8,7 +8,7 @@ namespace SocialCode.API.Services.Requests
         }
         public T Value { get; set; }
         
-        public SocialCodeError Error { get; set; }
+        public SocialCodeErrorTypes ErrorTypes { get; set; }
 
         public string ErrorMsg { get; set; }
         

@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SocialCode.API.Requests.Comments;
 using SocialCode.API.Services.Comments;
-using SocialCode.API.Services.Requests.Comments;
 
 namespace SocialCode.API.Controllers
 { 

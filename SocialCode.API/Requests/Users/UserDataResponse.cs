@@ -1,4 +1,4 @@
-namespace SocialCode.API.Services.Requests.Users
+namespace SocialCode.API.Requests.Users
 {
     public class UserDataResponse
     {

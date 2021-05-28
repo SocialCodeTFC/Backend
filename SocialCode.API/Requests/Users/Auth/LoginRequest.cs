@@ -1,4 +1,4 @@
-namespace SocialCode.API.Services.Requests.Users.Auth
+namespace SocialCode.API.Requests.Users.Auth
 {
     public class LoginRequest
     {

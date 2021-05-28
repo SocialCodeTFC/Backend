@@ -1,10 +1,10 @@
-using SocialCode.API.Services.Requests.Users;
-using SocialCode.API.Services.Requests.Users.Auth;
-using SocialCode.API.Services.Requests.Users.Register;
+using SocialCode.API.Requests.Users;
+using SocialCode.API.Requests.Users.Auth;
+using SocialCode.API.Requests.Users.Register;
 using SocialCode.API.Services.Users;
 using SocialCode.Domain.User;
 
-namespace SocialCode.API.Services.Converters
+namespace SocialCode.API.Converters
 {
     public static class UserConverter
     {

@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
-using SocialCode.API.Services.Requests.Posts;
+using SocialCode.API.Requests.Posts;
 using SocialCode.Domain.Post;
 
-
-namespace SocialCode.API.Services.Converters
+namespace SocialCode.API.Converters
 {
     public static class PostConverter
     {

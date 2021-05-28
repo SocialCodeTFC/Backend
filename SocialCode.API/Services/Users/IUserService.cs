@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
-using SocialCode.API.Services.Requests;
-using SocialCode.API.Services.Requests.Users;
+using SocialCode.API.Requests;
+using SocialCode.API.Requests.Users;
 
 namespace SocialCode.API.Services.Users
 {

@@ -1,6 +1,4 @@
-using MongoDB.Bson;
-
-namespace SocialCode.API.Services.Users
+namespace SocialCode.API.Requests.Users
 {
     public class UserDataRequest
     {

@@ -1,4 +1,4 @@
-namespace SocialCode.API.Services.Requests.Comments
+namespace SocialCode.API.Requests.Comments
 {
     public class CommentRequest
     {

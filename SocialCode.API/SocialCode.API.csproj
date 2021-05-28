@@ -22,10 +22,5 @@
       <ProjectReference Include="../SocialCode.Infrastructure\SocialCode.Infrastructure.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Services\Validators\Post" />
-      <Folder Include="Services\Validators\User" />
-    </ItemGroup>
-
 
 </Project>

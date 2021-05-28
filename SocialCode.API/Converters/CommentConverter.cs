@@ -1,7 +1,7 @@
-using SocialCode.API.Services.Requests.Comments;
+using SocialCode.API.Requests.Comments;
 using SocialCode.Domain.Comment;
 
-namespace SocialCode.API.Services.Converters
+namespace SocialCode.API.Converters
 {
     public static class CommentConverter
     {

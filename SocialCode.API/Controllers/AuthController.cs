@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using SocialCode.API.Requests.Users.Auth;
+using SocialCode.API.Requests.Users.Register;
 using SocialCode.API.Services.Auth;
-using SocialCode.API.Services.Requests.Users.Auth;
-using SocialCode.API.Services.Requests.Users.Register;
 
 namespace SocialCode.API.Controllers
 {

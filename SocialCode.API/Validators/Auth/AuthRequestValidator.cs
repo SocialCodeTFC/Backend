@@ -1,7 +1,7 @@
-using SocialCode.API.Services.Requests.Users.Auth;
-using SocialCode.API.Services.Requests.Users.Register;
+using SocialCode.API.Requests.Users.Auth;
+using SocialCode.API.Requests.Users.Register;
 
-namespace SocialCode.API.Services.Validators
+namespace SocialCode.API.Validators.Auth
 {
     public static class AuthRequestValidator
     {

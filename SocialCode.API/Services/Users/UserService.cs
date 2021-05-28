@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
-using SocialCode.API.Services.Converters;
-using SocialCode.API.Services.Requests;
-using SocialCode.API.Services.Requests.Users;
+using SocialCode.API.Converters;
+using SocialCode.API.Requests;
+using SocialCode.API.Requests.Users;
 using SocialCode.Domain.User;
 namespace SocialCode.API.Services.Users
 {
@@ -23,7 +23,7 @@ namespace SocialCode.API.Services.Users
             if (user is null)
             {
                 scResult.ErrorMsg = "User not found";
-                scResult.Error = SocialCodeError.NotFound;
+                scResult.ErrorTypes = SocialCodeErrorTypes.NotFound;
                 return scResult;
             }
             
@@ -40,7 +40,7 @@ namespace SocialCode.API.Services.Users
             if (user is null)
             {
                 scResult.ErrorMsg = "User not found";
-                scResult.Error = SocialCodeError.NotFound;
+                scResult.ErrorTypes = SocialCodeErrorTypes.NotFound;
                 return scResult;
             }
 
@@ -48,7 +48,7 @@ namespace SocialCode.API.Services.Users
 
             if (deletedUser is null)
             {
-                scResult.Error = SocialCodeError.Generic;
+                scResult.ErrorTypes = SocialCodeErrorTypes.Generic;
                 scResult.ErrorMsg = "Failed to delete user";
             }
             scResult.Value = UserConverter.User_ToUserResponse(deletedUser);
@@ -62,7 +62,7 @@ namespace SocialCode.API.Services.Users
             if (updatedUserDataRequest is null)
             {
                 scResult.ErrorMsg = "Invalid/null request";
-                scResult.Error = SocialCodeError.BadRequest;
+                scResult.ErrorTypes = SocialCodeErrorTypes.BadRequest;
                 return scResult;
             }
             
@@ -73,7 +73,7 @@ namespace SocialCode.API.Services.Users
             if (updateResult is null)
             {
                 scResult.ErrorMsg = "Failed to update user data";
-                scResult.Error = SocialCodeError.Generic;
+                scResult.ErrorTypes = SocialCodeErrorTypes.Generic;
                 return scResult;
             }
             scResult.Value = UserConverter.User_ToUserResponse(updateResult);

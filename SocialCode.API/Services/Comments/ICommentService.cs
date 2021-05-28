@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using SocialCode.API.Services.Requests.Comments;
+using SocialCode.API.Requests.Comments;
 
 
 namespace SocialCode.API.Services.Comments

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 using SocialCode.Domain.User;
@@ -25,13 +27,11 @@ namespace SocialCode.Infrastructure.Repositories
             await _context.Users.InsertOneAsync(user);
             return user;
         }
-        
         public async Task<User> GetUserById(string id)
         {
             var user = await _context.Users.FindAsync(e => e.Id == id);
             return await user.FirstOrDefaultAsync();
         }
-
         public async Task<User> DeleteUser(string id)
         {
             var toDeleteUser = await _context.Users.FindAsync(x => x.Id == id);
@@ -44,7 +44,6 @@ namespace SocialCode.Infrastructure.Repositories
 
             return await toDeleteUser.FirstOrDefaultAsync();
         }
-
         public async Task<User> ModifyUser(string id, User updatedUser)
         {
             try
@@ -59,12 +58,25 @@ namespace SocialCode.Infrastructure.Repositories
             
             return updatedUser;
         }
-        
         public async Task<User> GetByUsername(string username)
         {
             var result = await _context.Users.FindAsync(x => x.Username == username);
             var user = await result.FirstOrDefaultAsync();
             return user;
         }
+        public async Task<IEnumerable<User>> GetByLikedPost(string postID)
+        {
+            var result = await _context.Users.FindAsync(u => u.LikedPosts.Any(u => u.Id == postID));
+            var users = await result?.ToListAsync();
+
+            return users ?? null;
+        }
+        public async Task<IEnumerable<User>> GetByPurchasedPost(string postID)
+        {
+            var result = await _context.Users.FindAsync(u => u.PurchasedPosts.Any(u => u.Id == postID));
+            var users = await result?.ToListAsync();
+            return users ?? null;
+        }
+        
     }
 }

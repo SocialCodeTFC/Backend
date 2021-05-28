@@ -1,4 +1,4 @@
-namespace SocialCode.API.Services.Requests.Users.Register
+namespace SocialCode.API.Requests.Users.Register
 {
     public class RegisterRequest
     {
