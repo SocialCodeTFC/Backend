@@ -101,7 +101,7 @@ namespace SocialCode.API.Services.Auth
             
             if (insertedUser is null)
             {
-                scResult.ErrorTypes = SocialCodeErrorTypes.InvalidOperation;
+                scResult.ErrorTypes = SocialCodeErrorTypes.BadRequest;
                 scResult.ErrorMsg = "Existing user with same email or username, Email & Username are unique per user";
                 return scResult;
             }

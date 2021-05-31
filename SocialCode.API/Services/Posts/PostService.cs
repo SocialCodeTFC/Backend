@@ -28,7 +28,7 @@ namespace SocialCode.API.Services.Posts
             var scResult = new SocialCodeResult<PostResponse>();
             
             //Validate postRequest with post RequestValidator
-            if (!CommonValidator.IsValidId(postRequest.Author_Id))
+            if (!CommonValidator.IsValidId(postRequest.Author_Id) )
             {
                 scResult.ErrorTypes = SocialCodeErrorTypes.BadRequest;
                 scResult.ErrorMsg = "Invalid authorID in the request!";
@@ -86,8 +86,8 @@ namespace SocialCode.API.Services.Posts
                 return scResult;
             }
 
-            scResult.ErrorMsg = "Post is deleted!";
-            scResult.ErrorTypes = SocialCodeErrorTypes.InvalidOperation;
+            scResult.ErrorMsg = "Post has been deleted!";
+            scResult.ErrorTypes = SocialCodeErrorTypes.Forbidden;
             return scResult;
         }
         public async Task<SocialCodeResult<PostResponse>> DeletePost(string id)
@@ -147,6 +147,7 @@ namespace SocialCode.API.Services.Posts
             {
                 scResult.ErrorTypes = SocialCodeErrorTypes.BadRequest;
                 scResult.ErrorMsg = "Invalid updatedPostData in the request";
+                return scResult;
             }
 
             var originalPost = await _postRepository.GetPostById(id);
@@ -185,7 +186,7 @@ namespace SocialCode.API.Services.Posts
             }
 
             scResult.ErrorMsg = "Post has benn deleted";
-            scResult.ErrorTypes = SocialCodeErrorTypes.InvalidOperation;
+            scResult.ErrorTypes = SocialCodeErrorTypes.Forbidden;
             return scResult;
             
         }
@@ -221,7 +222,8 @@ namespace SocialCode.API.Services.Posts
         }
         
         //PageResult with latestPosts
-        //PageResult with followedUser latest posts
+        
+        //PageResult with interesting tags match and order by recent
         
         private static bool CanReturnPost(Post post)
         {
@@ -239,6 +241,9 @@ namespace SocialCode.API.Services.Posts
 
             return filteredList;
         }
+        
+        
+        
         
     }
 }

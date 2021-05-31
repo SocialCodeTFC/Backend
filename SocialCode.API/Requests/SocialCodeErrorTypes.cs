@@ -5,7 +5,6 @@ namespace SocialCode.API.Requests
         Generic,
         NotFound,
         BadRequest,
-        Forbidden,
-        InvalidOperation
+        Forbidden
     }
 }

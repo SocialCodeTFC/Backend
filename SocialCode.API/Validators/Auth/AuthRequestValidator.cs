@@ -7,12 +7,12 @@ namespace SocialCode.API.Validators.Auth
     {
         public static bool IsValidLoginRequest(LoginRequest loginRequest)
         {
-            return !(loginRequest is null) && loginRequest.Username.Length >= 2 && loginRequest.Username.Contains("#") && loginRequest.Password?.Length >= 5;
+            return !(loginRequest is null) && loginRequest.Username.Length >= 2 && loginRequest.Username.Contains("@") && loginRequest.Password?.Length >= 5;
         }
         public static bool IsValidRegisterRequest(RegisterRequest registerRequest)
         {
             
-            return registerRequest.Email.Contains("@") && registerRequest.Password.Length > 4 && registerRequest.Password.Equals(registerRequest.RepeatPassword) && registerRequest.UserName.Contains("#");
+            return registerRequest.Email.Contains("@") && registerRequest.Password.Length >=  5 && registerRequest.Password.Equals(registerRequest.RepeatPassword) && registerRequest.UserName.Contains("@");
         }
     }
 }
