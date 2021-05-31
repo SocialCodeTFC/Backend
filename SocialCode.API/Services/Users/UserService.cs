@@ -18,7 +18,7 @@ namespace SocialCode.API.Services.Users
         {
             var scResult = new SocialCodeResult<UserDataResponse>();
             
-            if (CommonValidator.IsValidId(id))
+            if (!CommonValidator.IsValidId(id))
             {
                 scResult.ErrorMsg = "ID is not valid" ;
                 scResult.ErrorTypes = SocialCodeErrorTypes.BadRequest ;
