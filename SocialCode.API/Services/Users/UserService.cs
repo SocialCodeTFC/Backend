@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using SocialCode.API.Converters;
 using SocialCode.API.Requests;
 using SocialCode.API.Requests.Users;
+using SocialCode.API.Validators;
 using SocialCode.Domain.User;
 namespace SocialCode.API.Services.Users
 {
@@ -15,8 +16,14 @@ namespace SocialCode.API.Services.Users
         }
         public async Task<SocialCodeResult<UserDataResponse>> GetUserById(string id)
         {
-            //Validator
             var scResult = new SocialCodeResult<UserDataResponse>();
+            
+            if (CommonValidator.IsValidId(id))
+            {
+                scResult.ErrorMsg = "ID is not valid" ;
+                scResult.ErrorTypes = SocialCodeErrorTypes.BadRequest ;
+                return scResult;
+            }
             
             var user = await _userRepository.GetUserById(id);
             
@@ -32,8 +39,15 @@ namespace SocialCode.API.Services.Users
         }
         public async Task<SocialCodeResult<UserDataResponse>> DeleteUser(string id)
         {
-            //Validator
             var scResult = new SocialCodeResult<UserDataResponse>();
+
+            if (!CommonValidator.IsValidId(id))
+            {
+                scResult.ErrorMsg = "Invalid ID";
+                scResult.ErrorTypes = SocialCodeErrorTypes.BadRequest;
+                return scResult;
+            }
+            
             
             var user = await _userRepository.GetUserById(id);
 
@@ -51,17 +65,24 @@ namespace SocialCode.API.Services.Users
                 scResult.ErrorTypes = SocialCodeErrorTypes.Generic;
                 scResult.ErrorMsg = "Failed to delete user";
             }
+            
             scResult.Value = UserConverter.User_ToUserResponse(deletedUser);
             return scResult;
-            
         }
         public async Task<SocialCodeResult<UserDataResponse>> ModifyUserData(string id, UserDataRequest updatedUserDataRequest)
         {
             var scResult = new SocialCodeResult<UserDataResponse>();
 
-            if (updatedUserDataRequest is null)
+            if (!CommonValidator.IsValidId(id))
             {
-                scResult.ErrorMsg = "Invalid/null request";
+                scResult.ErrorTypes = SocialCodeErrorTypes.BadRequest;
+                scResult.ErrorMsg = "Invalid ID request";
+                return scResult;
+            }
+            
+            if (updatedUserDataRequest is null) //TODO: Change to validator function & correct validation
+            {
+                scResult.ErrorMsg = "Invalid update user data request";
                 scResult.ErrorTypes = SocialCodeErrorTypes.BadRequest;
                 return scResult;
             }

@@ -94,13 +94,15 @@ namespace SocialCode.API.Services.Auth
                 scResult.ErrorMsg = "Check your username(#), email & password!";
                 return scResult; 
             }
+            
             //Convert & SaveUser
             var user = UserConverter.RegisterRequest_ToUser(registerRequest);
             var insertedUser = await _userRepository.Insert(user);
             
             if (insertedUser is null)
             {
-                scResult.ErrorTypes = SocialCodeErrorTypes.Generic;
+                scResult.ErrorTypes = SocialCodeErrorTypes.InvalidOperation;
+                scResult.ErrorMsg = "Existing user with same email or username, Email & Username are unique per user";
                 return scResult;
             }
             //Generate user tokens
@@ -159,6 +161,7 @@ namespace SocialCode.API.Services.Auth
                 scResult.ErrorMsg = "Refresh request ID doesn't match with any user ID in database!";
                 return scResult;
             }
+            
             //Match Betwwen tokenRequest token & user Token
             if (!refreshTokenRequest.RefreshToken.Equals(user.RefreshToken))
             {

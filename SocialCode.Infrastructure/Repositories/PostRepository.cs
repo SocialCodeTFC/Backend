@@ -53,5 +53,6 @@ namespace SocialCode.Infrastructure.Repositories
             var postsList = await result.ToListAsync();
             return postsList.Count <= 0 ? null : postsList;
         }
+        
     }
 }

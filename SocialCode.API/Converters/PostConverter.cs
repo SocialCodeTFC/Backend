@@ -46,7 +46,6 @@ namespace SocialCode.API.Converters
             var postResponseList = postsList.Select(Post_ToPostResponse).ToList();
             return postResponseList;
         }
-
         public static Post PostRequest_ToPost(PostRequest postRequest)
         {
             return new Post

@@ -52,7 +52,14 @@ namespace SocialCode.API.Controllers
             var posts = await _postService.GetAllUserPosts(userId);
             return new OkObjectResult(posts);
         }
+
+        [HttpGet("/paginated")]
+        public async Task<IActionResult> GetPaginatedPost([FromQuery] int limit, [FromQuery] int offset)
+        {
+            //var paginatedPosts = await _postService.GetPaginatedPosts();
+            return new OkObjectResult(null);
+        }
         
-        //TODO: Paginated Post
+        
     }
 }
