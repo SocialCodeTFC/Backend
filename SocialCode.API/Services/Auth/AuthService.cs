@@ -21,7 +21,6 @@ namespace SocialCode.API.Services.Auth
     public class AuthService :IAuthService
     {
         private readonly IUserRepository _userRepository;
-        private IAuthService _authServiceImplementation;
         private readonly IConfiguration _config;
         
         public AuthService( IUserRepository userRepository, IConfiguration config)
@@ -37,6 +36,7 @@ namespace SocialCode.API.Services.Auth
             if (!AuthRequestValidator.IsValidLoginRequest(loginRequest))
             {
                 scResult.ErrorTypes = SocialCodeErrorTypes.BadRequest;
+                scResult.ErrorMsg = "Login request is not valid";
                 return scResult;
             }
 
@@ -73,6 +73,11 @@ namespace SocialCode.API.Services.Auth
             
             //Persist new user Tokens in MongoDB
             var updatedUser = await _userRepository.ModifyUser(user.Id, user);
+            if (updatedUser is null)
+            {
+                scResult.ErrorMsg = "Cant update user Tokens";
+                scResult.ErrorTypes = SocialCodeErrorTypes.Generic;
+            }
 
             //Return dto with token & refresh token
             scResult.Value = new AuthResponse()
@@ -92,7 +97,7 @@ namespace SocialCode.API.Services.Auth
             if (!AuthRequestValidator.IsValidRegisterRequest(registerRequest))
             {
                 scResult.ErrorTypes = SocialCodeErrorTypes.BadRequest;
-                scResult.ErrorMsg = "Check your username(#), email & password!";
+                scResult.ErrorMsg = "Check your username(contains @), email & password!";
                 return scResult; 
             }
             
@@ -130,6 +135,7 @@ namespace SocialCode.API.Services.Auth
             if (updatedUser is null)
             {
                 scResult.ErrorTypes = SocialCodeErrorTypes.Generic;
+                scResult.ErrorMsg = "Error saving user Tokens & EncryptedPassword";
                 return scResult;
             }
             
@@ -271,7 +277,7 @@ namespace SocialCode.API.Services.Auth
 
                 return false;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return false;
             }

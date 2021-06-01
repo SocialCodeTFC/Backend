@@ -1,0 +1,20 @@
+version: '3.7'
+
+services:
+
+  mongo.SocialCode:
+    image: mongo:latest
+    container_name: mongo.SocialCode
+    ports:
+      - 127.0.0.1:27017:27017
+    volumes:
+      - ./MongoInit/:/docker-entrypoint-initdb.d/
+      - mongodb_data_container:/data/db
+
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: socialCode
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: SocialCode
+
+volumes:
+  mongodb_data_container:

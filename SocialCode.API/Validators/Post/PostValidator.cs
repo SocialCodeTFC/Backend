@@ -7,13 +7,7 @@ namespace SocialCode.API.Validators.Post
     {
         public static bool isValidPostRequest(PostRequest postRequest)
         {
-            if (postRequest is null) return false;
-            var postAttributes = postRequest.GetType().GetProperties().ToList();
-            
-            foreach (var attribute in postAttributes)
-            {
-                if (attribute.GetValue(postRequest) is null) return false;
-            }
+            if (postRequest is null  || (!postRequest.IsFree && postRequest.Price.Equals(0)) || postRequest.Price < 0 ) return false;
             return true;
         }
     }

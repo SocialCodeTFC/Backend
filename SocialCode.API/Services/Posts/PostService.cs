@@ -154,7 +154,7 @@ namespace SocialCode.API.Services.Posts
                 SetAuthorReferencesToPostResponse(scResult.Value, author);
                 
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 scResult.ErrorTypes = SocialCodeErrorTypes.Generic;
                 
@@ -201,7 +201,7 @@ namespace SocialCode.API.Services.Posts
                     return scResult;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 scResult.ErrorTypes = SocialCodeErrorTypes.Generic;
                 scResult.ErrorMsg = "Failed to modify post!";
@@ -209,10 +209,18 @@ namespace SocialCode.API.Services.Posts
             }
             
             var author = await _userRepository.GetUserById(post.AuthorID);
+            
             if (author is null)
             {
                 scResult.ErrorMsg = "There are some internal problems to recover post author, maybe it's deleted";
                 scResult.ErrorTypes = SocialCodeErrorTypes.Generic;
+            }
+
+            if (!author.Id.Equals(post.AuthorID))
+            {
+                scResult.ErrorMsg = "";
+                scResult.ErrorTypes = SocialCodeErrorTypes.Generic;
+                return scResult;
             }
             
             if (CanReturnPost(post))

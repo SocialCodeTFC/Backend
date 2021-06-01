@@ -51,7 +51,7 @@ namespace SocialCode.Infrastructure.Repositories
                 await _context.Users.ReplaceOneAsync(x => x.Id == id, updatedUser,
                     new ReplaceOptions {IsUpsert = false});
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return null;
             }
