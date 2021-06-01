@@ -12,5 +12,7 @@ namespace SocialCode.API.Services.Posts
         Task<SocialCodeResult<PostResponse>> DeletePost(string id);
         Task<SocialCodeResult<PostResponse>> ModifyPost(string id, PostRequest updatedPost);
         Task<SocialCodeResult<IEnumerable<PostResponse>>> GetAllUserPosts(string id);
+        Task<SocialCodeResult<PaginatedResult<PostResponse>>> GetRecentPosts(int limit, int offset);
+        Task<SocialCodeResult<PaginatedResult<PostResponse>>> GetPostsByTags(TagFilters tags, int limit, int offset);
     }
 }

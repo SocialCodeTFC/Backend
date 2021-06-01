@@ -41,6 +41,5 @@ namespace SocialCode.API.Controllers
             var authResponse = await _authService.RefreshToken(refreshTokenRequest);
             return new OkObjectResult(authResponse);
         }
-        
     }
 }

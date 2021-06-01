@@ -16,6 +16,5 @@ namespace SocialCode.API.Requests
         {
             return !(Value is null);
         }
-        
     }
 }

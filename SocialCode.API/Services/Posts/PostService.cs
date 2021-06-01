@@ -5,12 +5,10 @@ using System.Threading.Tasks;
 using SocialCode.API.Converters;
 using SocialCode.API.Requests;
 using SocialCode.API.Requests.Posts;
-using SocialCode.API.Services.Users;
 using SocialCode.API.Validators;
 using SocialCode.API.Validators.Post;
 using SocialCode.Domain.Post;
 using SocialCode.Domain.User;
-
 
 namespace SocialCode.API.Services.Posts
 {
@@ -28,10 +26,17 @@ namespace SocialCode.API.Services.Posts
             var scResult = new SocialCodeResult<PostResponse>();
             
             //Validate postRequest with post RequestValidator
-            if (!CommonValidator.IsValidId(postRequest.Author_Id) )
+            if (!CommonValidator.IsValidId(postRequest.Author_Id)  )
             {
                 scResult.ErrorTypes = SocialCodeErrorTypes.BadRequest;
                 scResult.ErrorMsg = "Invalid authorID in the request!";
+                return scResult;
+            }
+
+            if (!PostValidator.isValidPostRequest(postRequest))
+            {
+                scResult.ErrorTypes = SocialCodeErrorTypes.BadRequest;
+                scResult.ErrorMsg = "Invalid body in the request!";
                 return scResult;
             }
             
@@ -56,8 +61,11 @@ namespace SocialCode.API.Services.Posts
                 scResult.ErrorTypes = SocialCodeErrorTypes.BadRequest;
                 scResult.ErrorMsg = "Failed to save Post";
                 return scResult;
-            }
+            } 
+            
             scResult.Value = PostConverter.Post_ToPostResponse(post);
+            SetAuthorReferencesToPostResponse(scResult.Value, author);
+            
             return scResult;
         }
         public async Task<SocialCodeResult<PostResponse>> GetPostById(string id)
@@ -82,7 +90,18 @@ namespace SocialCode.API.Services.Posts
 
             if (CanReturnPost(post))
             {
+                var author = await _userRepository.GetUserById(post.AuthorID);
+                
+                if (author is null)
+                {
+                    scResult.ErrorMsg = "There are some internal problems to recover post author, maybe it's deleted";
+                    scResult.ErrorTypes = SocialCodeErrorTypes.Generic;
+                    return scResult;
+                }
+                
                 scResult.Value = PostConverter.Post_ToPostResponse(post);
+                SetAuthorReferencesToPostResponse(scResult.Value, author);
+                
                 return scResult;
             }
 
@@ -104,6 +123,7 @@ namespace SocialCode.API.Services.Posts
             try
             {
                 var post = await _postRepository.GetPostById(id);
+                
                 if (post is null)
                 {
                     scResult.ErrorMsg = "Post not found";
@@ -111,6 +131,13 @@ namespace SocialCode.API.Services.Posts
                     return scResult;      
                 }
                 
+                var author = await _userRepository.GetUserById(post.AuthorID);
+                if (author is null)
+                {
+                    scResult.ErrorMsg = "There are some internal problems to recover post author, maybe it's deleted";
+                    scResult.ErrorTypes = SocialCodeErrorTypes.Generic;
+                    return scResult;
+                }
                 
                 //Delete PostReferenceOnUsers & deletePost
                 
@@ -124,11 +151,13 @@ namespace SocialCode.API.Services.Posts
                 }
                 
                 scResult.Value = PostConverter.Post_ToPostResponse(deletedPost);
+                SetAuthorReferencesToPostResponse(scResult.Value, author);
                 
             }
             catch (Exception e)
             {
                 scResult.ErrorTypes = SocialCodeErrorTypes.Generic;
+                
             }
             return scResult;
         }
@@ -178,19 +207,26 @@ namespace SocialCode.API.Services.Posts
                 scResult.ErrorMsg = "Failed to modify post!";
                 return scResult;
             }
-
+            
+            var author = await _userRepository.GetUserById(post.AuthorID);
+            if (author is null)
+            {
+                scResult.ErrorMsg = "There are some internal problems to recover post author, maybe it's deleted";
+                scResult.ErrorTypes = SocialCodeErrorTypes.Generic;
+            }
+            
             if (CanReturnPost(post))
             {
                 scResult.Value = PostConverter.Post_ToPostResponse(post);
+                SetAuthorReferencesToPostResponse(scResult.Value, author);
                 return scResult;
             }
-
+            
             scResult.ErrorMsg = "Post has benn deleted";
             scResult.ErrorTypes = SocialCodeErrorTypes.Forbidden;
             return scResult;
-            
         }
-        public async Task<SocialCodeResult<IEnumerable<PostResponse>>> GetAllUserPosts(string userId)
+        public async Task<SocialCodeResult<IEnumerable<PostResponse>>> GetAllUserPosts(string userId) 
         {
             var scResult = new SocialCodeResult<IEnumerable<PostResponse>>();
             
@@ -202,6 +238,7 @@ namespace SocialCode.API.Services.Posts
             }
             
             var posts = await _postRepository.GetAllUserPosts(userId);
+            
             if (posts is null)
             {
                 scResult.ErrorTypes = SocialCodeErrorTypes.NotFound;
@@ -213,17 +250,91 @@ namespace SocialCode.API.Services.Posts
             
             if (CanReturnManyPosts(filteredPosts))
             {
-                scResult.Value = PostConverter.PostList_ToPostResponseList(filteredPosts);
+                var result = await GetPostResponseListWithAuthorReferences(filteredPosts);
+                if (result is null)
+                {
+                    scResult.ErrorMsg = "Failed to get post author reference";
+                    scResult.ErrorTypes = SocialCodeErrorTypes.Generic;
+                    return scResult;
+                }
+
+                scResult.Value = result;
                 return scResult;
             }
 
             scResult.ErrorMsg = "Failed to retrieve posts!";
             return scResult;
         }
-        
-        //PageResult with latestPosts
-        
-        //PageResult with interesting tags match and order by recent
+        public async Task<SocialCodeResult<PaginatedResult<PostResponse>>> GetRecentPosts(int limit, int offset)
+        {
+            var scResult = new SocialCodeResult<PaginatedResult<PostResponse>>();
+            
+            var postList = await _postRepository.GetRecentPosts(limit, offset);
+            
+            if (postList is null)
+            {
+                scResult.ErrorMsg = "Failed to get recent posts";
+                scResult.ErrorTypes = SocialCodeErrorTypes.Generic;
+                return scResult;
+            }
+
+            var filteredPostsList = RemoveDeletedPostsFromList(postList);
+            
+            if (!CanReturnManyPosts(filteredPostsList))
+            {
+                scResult.ErrorMsg = "Failed to filter deleted posts";
+                scResult.ErrorTypes = SocialCodeErrorTypes.Generic;
+                return scResult;
+            }
+            
+            var postResponseList = PostConverter.PostList_ToPostResponseList(filteredPostsList);
+            
+            scResult.Value = new PaginatedResult<PostResponse>()
+            {
+                Items = postResponseList
+            };
+
+            return scResult;
+        }
+        public async Task<SocialCodeResult<PaginatedResult<PostResponse>>> GetPostsByTags(TagFilters tagFilters, int limit, int offset)
+        {
+            var scResult = new SocialCodeResult<PaginatedResult<PostResponse>>();
+            
+            if (tagFilters.Tags is null || tagFilters is null)
+            {
+                scResult.ErrorMsg = "Bad tag filter in request!";
+                scResult.ErrorTypes = SocialCodeErrorTypes.BadRequest;
+                return scResult;
+            }
+            
+            var postsWithMatchingTags = await _postRepository.GetPostByTagFilter(tagFilters.Tags, limit, offset);
+
+            if (postsWithMatchingTags is null)
+            {
+                scResult.ErrorMsg = "Failed to retrieve posts by tags";
+                scResult.ErrorTypes = SocialCodeErrorTypes.Generic;
+                return scResult;
+            }
+
+            var filteredPostList = RemoveDeletedPostsFromList(postsWithMatchingTags);
+
+            if (!CanReturnManyPosts(filteredPostList))
+            {
+                scResult.ErrorMsg = "Failed to filter deleted tags";
+                scResult.ErrorTypes = SocialCodeErrorTypes.Generic;
+                return scResult;
+            }
+
+            var filteredPostResponseList = PostConverter.PostList_ToPostResponseList(filteredPostList);
+            
+            scResult.Value = new PaginatedResult<PostResponse>
+            {
+                Items = filteredPostResponseList
+            };
+
+            return scResult;
+        }
+       
         
         private static bool CanReturnPost(Post post)
         {
@@ -241,9 +352,32 @@ namespace SocialCode.API.Services.Posts
 
             return filteredList;
         }
-        
-        
-        
-        
+        private static void SetAuthorReferencesToPostResponse(PostResponse postResponse, User postAuthor)
+        {
+            postResponse.AuthorName = postAuthor.FirstName;
+            postResponse.AuthorUsername = postAuthor.Username;
+        }
+        private async Task<List<PostResponse>> GetPostResponseListWithAuthorReferences(IEnumerable<Post> posts)
+        {
+            var postResponseList = new List<PostResponse>();
+            
+            foreach (var post in posts)
+            {
+                var author = await _userRepository.GetUserById(post.AuthorID);
+                
+                if (author is null)
+                {
+                    return null;
+                }
+                
+                var postResponse = PostConverter.Post_ToPostResponse(post);
+                postResponse.AuthorName = author.FirstName;
+                postResponse.AuthorUsername = author.Username;
+                
+                postResponseList.Add(postResponse);
+            }
+
+            return postResponseList;
+        }
     }
 }

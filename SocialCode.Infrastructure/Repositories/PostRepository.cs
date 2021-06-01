@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 using SocialCode.Domain.Post;
@@ -10,12 +11,10 @@ namespace SocialCode.Infrastructure.Repositories
     public class PostRepository: IPostRepository
     {
         private readonly IMongoDbContext _context;
-        
         public PostRepository(IMongoDbContext context)
         {
             _context = context;
         }
-        
         public async Task<Post> Insert(Post post)
         {
             await _context.Posts.InsertOneAsync(post);
@@ -53,6 +52,28 @@ namespace SocialCode.Infrastructure.Repositories
             var postsList = await result.ToListAsync();
             return postsList.Count <= 0 ? null : postsList;
         }
-        
+        public async Task<IEnumerable<Post>> GetRecentPosts(int limit, int offset)
+        {
+            var posts = await _context.Posts.FindAsync(_ => true);
+            var postsList = await posts.ToListAsync();
+            postsList.OrderByDescending(p => p.Timestamp).Take(limit-offset);
+            
+            return postsList ?? null;
+        }
+        public async Task<IEnumerable<Post>> GetPostByTagFilter(List<string> tags, int limit, int offset)
+        {
+            var posts = await _context.Posts.FindAsync(_ => true);
+            var postsList = await posts.ToListAsync();
+            var filteredList = new List<Post>();
+
+            foreach (var tag in tags)
+            {
+                filteredList = postsList.FindAll(p => p.Tags.Contains(tag));
+            }
+
+            var test = filteredList.GroupBy(p => p.Id).Select(group => group.FirstOrDefault()).ToArray();
+            
+            return filteredList;
+        }
     }
 }

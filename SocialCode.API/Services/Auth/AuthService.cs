@@ -12,6 +12,7 @@ using SocialCode.API.Requests;
 using SocialCode.API.Requests.Users.Auth;
 using SocialCode.API.Requests.Users.Register;
 using SocialCode.API.Services.Users;
+using SocialCode.API.Validators;
 using SocialCode.API.Validators.Auth;
 using SocialCode.Domain.User;
 
@@ -31,7 +32,7 @@ namespace SocialCode.API.Services.Auth
         public async Task<SocialCodeResult<AuthResponse>> LogIn(LoginRequest loginRequest)
         {
             var scResult = new SocialCodeResult<AuthResponse>();
-            
+
             //Check if is valid request 
             if (!AuthRequestValidator.IsValidLoginRequest(loginRequest))
             {
@@ -151,6 +152,13 @@ namespace SocialCode.API.Services.Auth
             {
                 scResult.ErrorTypes = SocialCodeErrorTypes.BadRequest;
                 scResult.ErrorMsg = "Invalid request, token is not valid!";
+                return scResult;
+            }
+
+            if (!CommonValidator.IsValidId(refreshTokenRequest.UserId))
+            {
+                scResult.ErrorTypes = SocialCodeErrorTypes.NotFound;
+                scResult.ErrorMsg = "User id doesn't match with any userID in DB";
                 return scResult;
             }
 

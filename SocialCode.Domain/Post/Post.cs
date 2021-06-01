@@ -20,7 +20,6 @@ namespace SocialCode.Domain.Post
         public bool IsDeleted { get; set; }
         public int Price { get; set; }
         public string AuthorID { get; set; }
-        
         public IEnumerable<Comment.Comment> Comments { get; set; }
         
     }
