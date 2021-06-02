@@ -7,6 +7,10 @@ namespace SocialCode.API.Validators.Auth
     {
         public static bool IsValidLoginRequest(LoginRequest loginRequest)
         {
+            if (string.IsNullOrWhiteSpace(loginRequest.Password) ||
+                string.IsNullOrWhiteSpace(loginRequest.Username))
+                return false;
+            
             return !(loginRequest is null) && loginRequest.Username.Length >= 2 && loginRequest.Username.Contains("@") && loginRequest.Password?.Length >= 5;
         }
         public static bool IsValidRegisterRequest(RegisterRequest registerRequest)

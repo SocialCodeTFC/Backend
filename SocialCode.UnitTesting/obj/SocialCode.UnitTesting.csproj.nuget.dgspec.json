@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/martin/Backend/SocialCode.Domain/SocialCode.Domain.csproj": {}
+    "/home/martin/Backend/SocialCode.UnitTesting/SocialCode.UnitTesting.csproj": {}
   },
   "projects": {
-    "/home/martin/Backend/SocialCode.Domain/SocialCode.Domain.csproj": {
+    "/home/martin/Backend/SocialCode.UnitTesting/SocialCode.UnitTesting.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/martin/Backend/SocialCode.Domain/SocialCode.Domain.csproj",
-        "projectName": "SocialCode.Domain",
-        "projectPath": "/home/martin/Backend/SocialCode.Domain/SocialCode.Domain.csproj",
+        "projectUniqueName": "/home/martin/Backend/SocialCode.UnitTesting/SocialCode.UnitTesting.csproj",
+        "projectName": "SocialCode.UnitTesting",
+        "projectPath": "/home/martin/Backend/SocialCode.UnitTesting/SocialCode.UnitTesting.csproj",
         "packagesPath": "/home/martin/.nuget/packages/",
-        "outputPath": "/home/martin/Backend/SocialCode.Domain/obj/",
+        "outputPath": "/home/martin/Backend/SocialCode.UnitTesting/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/martin/.nuget/NuGet/NuGet.Config"
@@ -36,9 +36,21 @@
       "frameworks": {
         "netcoreapp3.1": {
           "dependencies": {
-            "MongoDB.Bson": {
+            "Microsoft.NET.Test.Sdk": {
               "target": "Package",
-              "version": "[2.12.3, )"
+              "version": "[16.5.0, )"
+            },
+            "coverlet.collector": {
+              "target": "Package",
+              "version": "[1.2.0, )"
+            },
+            "xunit": {
+              "target": "Package",
+              "version": "[2.4.0, )"
+            },
+            "xunit.runner.visualstudio": {
+              "target": "Package",
+              "version": "[2.4.0, )"
             }
           },
           "imports": [
