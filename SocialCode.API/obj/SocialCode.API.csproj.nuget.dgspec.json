@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/home/martin/Backend/SocialCode.API/SocialCode.API.csproj": {}
+    "/home/RED/mvarela/Backend/SocialCode.API/SocialCode.API.csproj": {}
   },
   "projects": {
-    "/home/martin/Backend/SocialCode.API/SocialCode.API.csproj": {
+    "/home/RED/mvarela/Backend/SocialCode.API/SocialCode.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/martin/Backend/SocialCode.API/SocialCode.API.csproj",
+        "projectUniqueName": "/home/RED/mvarela/Backend/SocialCode.API/SocialCode.API.csproj",
         "projectName": "SocialCode.API",
-        "projectPath": "/home/martin/Backend/SocialCode.API/SocialCode.API.csproj",
-        "packagesPath": "/home/martin/.nuget/packages/",
-        "outputPath": "/home/martin/Backend/SocialCode.API/obj/",
+        "projectPath": "/home/RED/mvarela/Backend/SocialCode.API/SocialCode.API.csproj",
+        "packagesPath": "/home/RED/mvarela/.nuget/packages/",
+        "outputPath": "/home/RED/mvarela/Backend/SocialCode.API/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/martin/.nuget/NuGet/NuGet.Config"
+          "/home/RED/mvarela/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -25,11 +25,11 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "/home/martin/Backend/SocialCode.Domain/SocialCode.Domain.csproj": {
-                "projectPath": "/home/martin/Backend/SocialCode.Domain/SocialCode.Domain.csproj"
+              "/home/RED/mvarela/Backend/SocialCode.Domain/SocialCode.Domain.csproj": {
+                "projectPath": "/home/RED/mvarela/Backend/SocialCode.Domain/SocialCode.Domain.csproj"
               },
-              "/home/martin/Backend/SocialCode.Infrastructure/SocialCode.Infrastructure.csproj": {
-                "projectPath": "/home/martin/Backend/SocialCode.Infrastructure/SocialCode.Infrastructure.csproj"
+              "/home/RED/mvarela/Backend/SocialCode.Infrastructure/SocialCode.Infrastructure.csproj": {
+                "projectPath": "/home/RED/mvarela/Backend/SocialCode.Infrastructure/SocialCode.Infrastructure.csproj"
               }
             }
           }
@@ -88,21 +88,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/home/martin/dotnet/sdk/3.1.408/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/home/RED/mvarela/dotnet/sdk/3.1.408/RuntimeIdentifierGraph.json"
         }
       }
     },
-    "/home/martin/Backend/SocialCode.Domain/SocialCode.Domain.csproj": {
+    "/home/RED/mvarela/Backend/SocialCode.Domain/SocialCode.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/martin/Backend/SocialCode.Domain/SocialCode.Domain.csproj",
+        "projectUniqueName": "/home/RED/mvarela/Backend/SocialCode.Domain/SocialCode.Domain.csproj",
         "projectName": "SocialCode.Domain",
-        "projectPath": "/home/martin/Backend/SocialCode.Domain/SocialCode.Domain.csproj",
-        "packagesPath": "/home/martin/.nuget/packages/",
-        "outputPath": "/home/martin/Backend/SocialCode.Domain/obj/",
+        "projectPath": "/home/RED/mvarela/Backend/SocialCode.Domain/SocialCode.Domain.csproj",
+        "packagesPath": "/home/RED/mvarela/.nuget/packages/",
+        "outputPath": "/home/RED/mvarela/Backend/SocialCode.Domain/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/martin/.nuget/NuGet/NuGet.Config"
+          "/home/RED/mvarela/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -144,21 +144,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/home/martin/dotnet/sdk/3.1.408/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/home/RED/mvarela/dotnet/sdk/3.1.408/RuntimeIdentifierGraph.json"
         }
       }
     },
-    "/home/martin/Backend/SocialCode.Infrastructure/SocialCode.Infrastructure.csproj": {
+    "/home/RED/mvarela/Backend/SocialCode.Infrastructure/SocialCode.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/martin/Backend/SocialCode.Infrastructure/SocialCode.Infrastructure.csproj",
+        "projectUniqueName": "/home/RED/mvarela/Backend/SocialCode.Infrastructure/SocialCode.Infrastructure.csproj",
         "projectName": "SocialCode.Infrastructure",
-        "projectPath": "/home/martin/Backend/SocialCode.Infrastructure/SocialCode.Infrastructure.csproj",
-        "packagesPath": "/home/martin/.nuget/packages/",
-        "outputPath": "/home/martin/Backend/SocialCode.Infrastructure/obj/",
+        "projectPath": "/home/RED/mvarela/Backend/SocialCode.Infrastructure/SocialCode.Infrastructure.csproj",
+        "packagesPath": "/home/RED/mvarela/.nuget/packages/",
+        "outputPath": "/home/RED/mvarela/Backend/SocialCode.Infrastructure/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/martin/.nuget/NuGet/NuGet.Config"
+          "/home/RED/mvarela/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -169,8 +169,8 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "/home/martin/Backend/SocialCode.Domain/SocialCode.Domain.csproj": {
-                "projectPath": "/home/martin/Backend/SocialCode.Domain/SocialCode.Domain.csproj"
+              "/home/RED/mvarela/Backend/SocialCode.Domain/SocialCode.Domain.csproj": {
+                "projectPath": "/home/RED/mvarela/Backend/SocialCode.Domain/SocialCode.Domain.csproj"
               }
             }
           }
@@ -204,7 +204,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/home/martin/dotnet/sdk/3.1.408/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/home/RED/mvarela/dotnet/sdk/3.1.408/RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -20,23 +20,41 @@ namespace SocialCode.API.Controllers
         [HttpGet("{id:length(24)}")]
         public async Task<IActionResult> GetOneById(string id)
         {
-            var user = await _userService.GetUserById(id);
+            var userServiceResult = await _userService.GetUserById(id);
             
-            return new OkObjectResult(user);
+            if (!userServiceResult.IsValid())
+            {
+                return ControllerUtils.ControllerUtils.TranslateErrorToResponseStatus(userServiceResult.ErrorTypes,
+                    userServiceResult.ErrorMsg);
+            }
+
+            return new OkObjectResult(userServiceResult.Value);
         }
         
         [HttpDelete("{id:length(24)}")]
         public async Task<IActionResult> DeleteUser(string id)
         {
-            var deletedUser = await _userService.DeleteUser(id);
-            return new OkObjectResult(deletedUser);
+            var userServiceResult = await _userService.DeleteUser(id);
+            if (!userServiceResult.IsValid())
+            {
+                return ControllerUtils.ControllerUtils.TranslateErrorToResponseStatus(userServiceResult.ErrorTypes,
+                    userServiceResult.ErrorMsg);
+            }
+
+            return new OkObjectResult(userServiceResult.Value);
         }
         
         [HttpPut("{id}")]
         public async Task<IActionResult> ModifyUser(string id, [FromBody] UserDataRequest updatedUserDataRequest)
         {
-            var updatedUserResponse = await _userService.ModifyUserData(id, updatedUserDataRequest);
-            return new OkObjectResult(updatedUserResponse);
+            var userServiceResult = await _userService.ModifyUserData(id, updatedUserDataRequest);
+            if (!userServiceResult.IsValid())
+            {
+                return ControllerUtils.ControllerUtils.TranslateErrorToResponseStatus(userServiceResult.ErrorTypes,
+                    userServiceResult.ErrorMsg);
+            }
+
+            return new OkObjectResult(userServiceResult.Value);
         }
     }
 }

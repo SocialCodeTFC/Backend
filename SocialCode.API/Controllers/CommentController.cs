@@ -21,8 +21,15 @@ namespace SocialCode.API.Controllers
         [HttpPost]
         public async Task<IActionResult> InsertComment([FromBody] CommentRequest commentRequest)
         {
-            var insertedComment = await _commentService.InsertComment(commentRequest);
-            return new OkObjectResult(insertedComment);
+            var commentServiceResult = await _commentService.InsertComment(commentRequest);
+            
+            if (!commentServiceResult.IsValid())
+            {
+                return ControllerUtils.ControllerUtils.TranslateErrorToResponseStatus(commentServiceResult.ErrorTypes,
+                    commentServiceResult.ErrorMsg);
+            }
+
+            return new CreatedResult("/comments", commentServiceResult.Value);
             
         }
     }

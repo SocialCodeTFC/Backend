@@ -73,7 +73,7 @@ namespace SocialCode.API.Controllers
         }
 
         [HttpGet("user/{userId:length(24)}")]
-        public async Task<IActionResult> GetAllUserPosts(string userId) //Todo: Check method is wrong
+        public async Task<IActionResult> GetAllUserPosts(string userId) 
         {
             var postServiceResult = await _postService.GetAllUserPosts(userId);
             if (!postServiceResult.IsValid())

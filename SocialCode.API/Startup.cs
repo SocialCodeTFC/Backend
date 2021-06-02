@@ -61,7 +61,6 @@ namespace SocialCode.API
             
             services.AddSingleton<IAuthService, AuthService>();
             
-
             var key = Encoding.ASCII.GetBytes(Configuration.GetSection("JwtKey").ToString());
             
             var tokenValidationParams = new TokenValidationParameters
@@ -71,10 +70,9 @@ namespace SocialCode.API
                 ValidateIssuer = false,
                 ValidateAudience = false,
                 ValidateLifetime = true,
-                RequireExpirationTime = false
+                RequireExpirationTime = true,
+                ClockSkew = TimeSpan.Zero
             };
-            
-            
             
             services.AddAuthentication(x =>
             {
@@ -88,7 +86,6 @@ namespace SocialCode.API
                 x.SaveToken = true;
                 x.TokenValidationParameters = tokenValidationParams;
             });
-            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

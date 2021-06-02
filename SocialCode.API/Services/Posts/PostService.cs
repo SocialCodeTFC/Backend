@@ -294,8 +294,8 @@ namespace SocialCode.API.Services.Posts
                 scResult.ErrorTypes = SocialCodeErrorTypes.Generic;
                 return scResult;
             }
-            
-            var postResponseList = PostConverter.PostList_ToPostResponseList(filteredPostsList);
+
+            var postResponseList = await GetPostResponseListWithAuthorReferences(filteredPostsList);
             
             scResult.Value = new PaginatedResult<PostResponse>()
             {

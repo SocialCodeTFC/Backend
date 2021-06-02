@@ -21,25 +21,44 @@ namespace SocialCode.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest registerRequest)
         {
-            var registeredUser = await _authService.Register(registerRequest);
+            var authServiceResult = await _authService.Register(registerRequest);
             
-            return new CreatedResult("/auth/register",registeredUser);
+            if (!authServiceResult.IsValid())
+            {
+                return ControllerUtils.ControllerUtils.TranslateErrorToResponseStatus(authServiceResult.ErrorTypes,
+                    authServiceResult.ErrorMsg);
+            }
+
+            return new CreatedResult("/auth/register", authServiceResult.Value);
         }
         
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
         {
-            var scResult = await _authService.LogIn(loginRequest);
+            var authServiceResult = await _authService.LogIn(loginRequest);
             
-            return new OkObjectResult(scResult);
+            if (!authServiceResult.IsValid())
+            {
+                return ControllerUtils.ControllerUtils.TranslateErrorToResponseStatus(authServiceResult.ErrorTypes,
+                    authServiceResult.ErrorMsg);
+            }
+
+            return new OkObjectResult(authServiceResult.Value);
 
         }
         
         [HttpPost("refresh")]
         public async Task<IActionResult> RefreshUserToken([FromBody] RefreshTokenRequest refreshTokenRequest)
         {
-            var authResponse = await _authService.RefreshToken(refreshTokenRequest);
-            return new OkObjectResult(authResponse);
+            var authServiceResult = await _authService.RefreshToken(refreshTokenRequest);
+            
+            if (!authServiceResult.IsValid())
+            {
+                return ControllerUtils.ControllerUtils.TranslateErrorToResponseStatus(authServiceResult.ErrorTypes,
+                    authServiceResult.ErrorMsg);
+            }
+
+            return new OkObjectResult(authServiceResult.Value);
         }
     }
 }

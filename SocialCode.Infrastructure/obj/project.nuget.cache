@@ -1,19 +1,19 @@
 {
   "version": 2,
-  "dgSpecHash": "M9uH2jXPj0x7/3CztYjZY0oAQK1l3E4ZIrMQ6FiZz45XtO496+Zy07sW1fdMMeuDt+GFgtMEepm9wHkKVGioeg==",
+  "dgSpecHash": "VJxs5jEXTKqqIvAMlq97i5ngS8ND0nGbRqkgFX0kzqHAzi5PYwbEzv8uSt09xmettu3bWGef/fMEw3JrqJAckA==",
   "success": true,
-  "projectFilePath": "/home/martin/Backend/SocialCode.Infrastructure/SocialCode.Infrastructure.csproj",
+  "projectFilePath": "/home/RED/mvarela/Backend/SocialCode.Infrastructure/SocialCode.Infrastructure.csproj",
   "expectedPackageFiles": [
-    "/home/martin/.nuget/packages/dnsclient/1.4.0/dnsclient.1.4.0.nupkg.sha512",
-    "/home/martin/.nuget/packages/microsoft.netcore.platforms/2.1.2/microsoft.netcore.platforms.2.1.2.nupkg.sha512",
-    "/home/martin/.nuget/packages/mongodb.bson/2.12.3/mongodb.bson.2.12.3.nupkg.sha512",
-    "/home/martin/.nuget/packages/mongodb.driver/2.12.3/mongodb.driver.2.12.3.nupkg.sha512",
-    "/home/martin/.nuget/packages/mongodb.driver.core/2.12.3/mongodb.driver.core.2.12.3.nupkg.sha512",
-    "/home/martin/.nuget/packages/mongodb.libmongocrypt/1.2.1/mongodb.libmongocrypt.1.2.1.nupkg.sha512",
-    "/home/martin/.nuget/packages/sharpcompress/0.23.0/sharpcompress.0.23.0.nupkg.sha512",
-    "/home/martin/.nuget/packages/system.buffers/4.5.1/system.buffers.4.5.1.nupkg.sha512",
-    "/home/martin/.nuget/packages/system.runtime.compilerservices.unsafe/5.0.0/system.runtime.compilerservices.unsafe.5.0.0.nupkg.sha512",
-    "/home/martin/.nuget/packages/system.text.encoding.codepages/4.5.1/system.text.encoding.codepages.4.5.1.nupkg.sha512"
+    "/home/RED/mvarela/.nuget/packages/dnsclient/1.4.0/dnsclient.1.4.0.nupkg.sha512",
+    "/home/RED/mvarela/.nuget/packages/microsoft.netcore.platforms/2.1.2/microsoft.netcore.platforms.2.1.2.nupkg.sha512",
+    "/home/RED/mvarela/.nuget/packages/mongodb.bson/2.12.3/mongodb.bson.2.12.3.nupkg.sha512",
+    "/home/RED/mvarela/.nuget/packages/mongodb.driver/2.12.3/mongodb.driver.2.12.3.nupkg.sha512",
+    "/home/RED/mvarela/.nuget/packages/mongodb.driver.core/2.12.3/mongodb.driver.core.2.12.3.nupkg.sha512",
+    "/home/RED/mvarela/.nuget/packages/mongodb.libmongocrypt/1.2.1/mongodb.libmongocrypt.1.2.1.nupkg.sha512",
+    "/home/RED/mvarela/.nuget/packages/sharpcompress/0.23.0/sharpcompress.0.23.0.nupkg.sha512",
+    "/home/RED/mvarela/.nuget/packages/system.buffers/4.5.1/system.buffers.4.5.1.nupkg.sha512",
+    "/home/RED/mvarela/.nuget/packages/system.runtime.compilerservices.unsafe/5.0.0/system.runtime.compilerservices.unsafe.5.0.0.nupkg.sha512",
+    "/home/RED/mvarela/.nuget/packages/system.text.encoding.codepages/4.5.1/system.text.encoding.codepages.4.5.1.nupkg.sha512"
   ],
   "logs": []
 }
