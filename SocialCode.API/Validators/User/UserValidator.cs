@@ -6,12 +6,14 @@ namespace SocialCode.API.Validators.User
     {
         public static bool IsValidUserDataRequest(UserDataRequest userDataRequest)
         {
-            if (string.IsNullOrWhiteSpace(userDataRequest.LastName) ||
+            if (string.IsNullOrWhiteSpace(userDataRequest.Username) ||
                 string.IsNullOrWhiteSpace(userDataRequest.FirstName) ||
-                string.IsNullOrWhiteSpace(userDataRequest.UserName) ||
-                string.IsNullOrWhiteSpace(userDataRequest.Email)) return false;
+                string.IsNullOrWhiteSpace(userDataRequest.LastName) ||
+                string.IsNullOrWhiteSpace(userDataRequest.Email))
+                return false;
 
-            return true;
+            return userDataRequest.Email.Contains("@") &&
+                   userDataRequest.Username.Contains("@");
         }
     }
 }

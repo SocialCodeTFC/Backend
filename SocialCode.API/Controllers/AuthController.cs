@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SocialCode.API.Requests.Users.Auth;
 using SocialCode.API.Requests.Users.Register;

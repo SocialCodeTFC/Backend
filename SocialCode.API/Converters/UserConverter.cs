@@ -16,7 +16,7 @@ namespace SocialCode.API.Converters
                 Email = user?.Email,
                 FirstName = user?.FirstName,
                 LastName = user?.LastName,
-                UserName = user?.Username
+                Username = user?.Username
             };
         }
 
@@ -26,7 +26,7 @@ namespace SocialCode.API.Converters
             {
                 Id = userDataRequest?.Id,
                 Email = userDataRequest?.Email,
-                Username = userDataRequest?.UserName,
+                Username = userDataRequest?.Username,
                 FirstName = userDataRequest?.FirstName,
                 LastName = userDataRequest?.LastName,
                 Password = userDataRequest?.Password
@@ -48,7 +48,7 @@ namespace SocialCode.API.Converters
         {
             return new User()
             {
-                Username = registerRequest?.UserName,
+                Username = registerRequest?.Username,
                 Password = registerRequest?.Password,
                 Email = registerRequest?.Email,
                 FirstName = registerRequest?.FirstName,

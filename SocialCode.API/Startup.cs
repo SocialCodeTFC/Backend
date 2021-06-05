@@ -16,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using SocialCode.API.Controllers;
 using SocialCode.API.Services.Auth;
 using SocialCode.API.Services.Comments;
@@ -33,6 +34,9 @@ namespace SocialCode.API
 {
     public class Startup
     {
+        
+        readonly string CorsConfig = "_myAllowSpecificOrigins";
+        
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -45,24 +49,24 @@ namespace SocialCode.API
         {
             services.AddControllers();
             services.AddHttpContextAccessor();
-            
+
             var config = new ServerConfig();
             Configuration.Bind(config);
             services.AddSingleton<IMongoDbContext>(sp => new MongoDbContext(config.MongoDb));
-            
+
             services.AddSingleton<IUserRepository, UserRepository>();
             services.AddSingleton<IUserService, UserService>();
-            
+
             services.AddSingleton<IPostRepository, PostRepository>();
             services.AddSingleton<IPostService, PostService>();
 
             services.AddSingleton<ICommentRepository, CommentRepository>();
             services.AddSingleton<ICommentService, CommentService>();
-            
+
             services.AddSingleton<IAuthService, AuthService>();
-            
+
             var key = Encoding.ASCII.GetBytes(Configuration.GetSection("JwtKey").ToString());
-            
+
             var tokenValidationParams = new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
@@ -73,7 +77,7 @@ namespace SocialCode.API
                 RequireExpirationTime = true,
                 ClockSkew = TimeSpan.Zero
             };
-            
+
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -86,6 +90,10 @@ namespace SocialCode.API
                 x.SaveToken = true;
                 x.TokenValidationParameters = tokenValidationParams;
             });
+            
+            services.AddCors();
+            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -95,11 +103,11 @@ namespace SocialCode.API
             {
                 app.UseDeveloperExceptionPage();
             }
-            
-            
-            
+
             app.UseRouting();
             
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
             app.UseAuthentication();
             
             app.UseAuthorization();

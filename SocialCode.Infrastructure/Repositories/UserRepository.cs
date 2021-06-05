@@ -34,15 +34,9 @@ namespace SocialCode.Infrastructure.Repositories
         }
         public async Task<User> DeleteUser(string id)
         {
-            var toDeleteUser = await _context.Users.FindAsync(x => x.Id == id);
-            
-            if (toDeleteUser.FirstOrDefault() is null) return null;
-            
-            var deleteResult = await _context.Users.DeleteOneAsync(x => x.Id == id);
-            
-            if(deleteResult.DeletedCount <= 0) return null;
-
-            return await toDeleteUser.FirstOrDefaultAsync();
+            var user = await GetUserById(id);
+            await _context.Users.DeleteOneAsync(x => x.Id == id);
+            return user;
         }
         public async Task<User> ModifyUser(string id, User updatedUser)
         {

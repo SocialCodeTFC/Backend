@@ -16,11 +16,9 @@ namespace SocialCode.Domain.User
         public string Email { get; set; }
         public string Token { get; set; }
         public string RefreshToken { get; set; }
-        
-        
         public IEnumerable<Post.Post> LikedPosts { get; set; }
         public IEnumerable<Post.Post> PurchasedPosts { get; set; }
-        public IEnumerable<Comment.Comment> Comments { get; set; }
         
+        public IEnumerable<Comment.Comment> Comments { get; set; }
     }
 }

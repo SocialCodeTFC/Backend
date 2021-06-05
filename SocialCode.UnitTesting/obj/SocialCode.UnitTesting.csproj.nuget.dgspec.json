@@ -1,20 +1,108 @@
 {
   "format": 1,
   "restore": {
-    "/home/martin/Backend/SocialCode.UnitTesting/SocialCode.UnitTesting.csproj": {}
+    "/home/RED/mvarela/Backend/SocialCode.UnitTesting/SocialCode.UnitTesting.csproj": {}
   },
   "projects": {
-    "/home/martin/Backend/SocialCode.UnitTesting/SocialCode.UnitTesting.csproj": {
+    "/home/RED/mvarela/Backend/SocialCode.API/SocialCode.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/martin/Backend/SocialCode.UnitTesting/SocialCode.UnitTesting.csproj",
-        "projectName": "SocialCode.UnitTesting",
-        "projectPath": "/home/martin/Backend/SocialCode.UnitTesting/SocialCode.UnitTesting.csproj",
-        "packagesPath": "/home/martin/.nuget/packages/",
-        "outputPath": "/home/martin/Backend/SocialCode.UnitTesting/obj/",
+        "projectUniqueName": "/home/RED/mvarela/Backend/SocialCode.API/SocialCode.API.csproj",
+        "projectName": "SocialCode.API",
+        "projectPath": "/home/RED/mvarela/Backend/SocialCode.API/SocialCode.API.csproj",
+        "packagesPath": "/home/RED/mvarela/.nuget/packages/",
+        "outputPath": "/home/RED/mvarela/Backend/SocialCode.API/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/martin/.nuget/NuGet/NuGet.Config"
+          "/home/RED/mvarela/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "/home/RED/mvarela/Backend/SocialCode.Domain/SocialCode.Domain.csproj": {
+                "projectPath": "/home/RED/mvarela/Backend/SocialCode.Domain/SocialCode.Domain.csproj"
+              },
+              "/home/RED/mvarela/Backend/SocialCode.Infrastructure/SocialCode.Infrastructure.csproj": {
+                "projectPath": "/home/RED/mvarela/Backend/SocialCode.Infrastructure/SocialCode.Infrastructure.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Microsoft.AspNetCore.Authentication": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[3.1.15, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[5.0.6, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[5.0.6, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[3.1.5, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[6.11.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/home/RED/mvarela/dotnet/sdk/3.1.408/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/RED/mvarela/Backend/SocialCode.Domain/SocialCode.Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/RED/mvarela/Backend/SocialCode.Domain/SocialCode.Domain.csproj",
+        "projectName": "SocialCode.Domain",
+        "projectPath": "/home/RED/mvarela/Backend/SocialCode.Domain/SocialCode.Domain.csproj",
+        "packagesPath": "/home/RED/mvarela/.nuget/packages/",
+        "outputPath": "/home/RED/mvarela/Backend/SocialCode.Domain/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/RED/mvarela/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -36,9 +124,140 @@
       "frameworks": {
         "netcoreapp3.1": {
           "dependencies": {
+            "MongoDB.Bson": {
+              "target": "Package",
+              "version": "[2.12.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/home/RED/mvarela/dotnet/sdk/3.1.408/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/RED/mvarela/Backend/SocialCode.Infrastructure/SocialCode.Infrastructure.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/RED/mvarela/Backend/SocialCode.Infrastructure/SocialCode.Infrastructure.csproj",
+        "projectName": "SocialCode.Infrastructure",
+        "projectPath": "/home/RED/mvarela/Backend/SocialCode.Infrastructure/SocialCode.Infrastructure.csproj",
+        "packagesPath": "/home/RED/mvarela/.nuget/packages/",
+        "outputPath": "/home/RED/mvarela/Backend/SocialCode.Infrastructure/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/RED/mvarela/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "/home/RED/mvarela/Backend/SocialCode.Domain/SocialCode.Domain.csproj": {
+                "projectPath": "/home/RED/mvarela/Backend/SocialCode.Domain/SocialCode.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[2.12.3, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/home/RED/mvarela/dotnet/sdk/3.1.408/RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/RED/mvarela/Backend/SocialCode.UnitTesting/SocialCode.UnitTesting.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/RED/mvarela/Backend/SocialCode.UnitTesting/SocialCode.UnitTesting.csproj",
+        "projectName": "SocialCode.UnitTesting",
+        "projectPath": "/home/RED/mvarela/Backend/SocialCode.UnitTesting/SocialCode.UnitTesting.csproj",
+        "packagesPath": "/home/RED/mvarela/.nuget/packages/",
+        "outputPath": "/home/RED/mvarela/Backend/SocialCode.UnitTesting/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/RED/mvarela/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "/home/RED/mvarela/Backend/SocialCode.API/SocialCode.API.csproj": {
+                "projectPath": "/home/RED/mvarela/Backend/SocialCode.API/SocialCode.API.csproj"
+              },
+              "/home/RED/mvarela/Backend/SocialCode.Domain/SocialCode.Domain.csproj": {
+                "projectPath": "/home/RED/mvarela/Backend/SocialCode.Domain/SocialCode.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Microsoft.AspNetCore.TestHost": {
+              "target": "Package",
+              "version": "[3.1.15, )"
+            },
             "Microsoft.NET.Test.Sdk": {
               "target": "Package",
               "version": "[16.5.0, )"
+            },
+            "Moq": {
+              "target": "Package",
+              "version": "[4.16.1, )"
             },
             "coverlet.collector": {
               "target": "Package",
@@ -64,11 +283,14 @@
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/home/martin/dotnet/sdk/3.1.408/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/home/RED/mvarela/dotnet/sdk/3.1.408/RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -65,15 +66,20 @@ namespace SocialCode.Infrastructure.Repositories
             var posts = await _context.Posts.FindAsync(_ => true);
             var postsList = await posts.ToListAsync();
             var filteredList = new List<Post>();
-
+            var listResult = new List<Post>();
             foreach (var tag in tags)
             {
                 filteredList = postsList.FindAll(p => p.Tags.Contains(tag));
+                if (filteredList.Count > 0)
+                {
+                    listResult.AddRange(filteredList);
+                }
             }
 
             var test = filteredList.GroupBy(p => p.Id).Select(group => group.FirstOrDefault()).ToArray();
+            Console.WriteLine(test.FirstOrDefault()?.Tags);
             
-            return filteredList;
+            return listResult;
         }
     }
 }

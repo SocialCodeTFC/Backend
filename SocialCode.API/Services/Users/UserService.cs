@@ -1,17 +1,17 @@
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 using SocialCode.API.Converters;
 using SocialCode.API.Requests;
 using SocialCode.API.Requests.Users;
 using SocialCode.API.Validators;
 using SocialCode.API.Validators.User;
 using SocialCode.Domain.User;
+
 namespace SocialCode.API.Services.Users
 {
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-        public UserService(IUserRepository userRepository, IConfiguration config)
+        public UserService(IUserRepository userRepository)
         {
             _userRepository = userRepository;
         }
@@ -44,27 +44,18 @@ namespace SocialCode.API.Services.Users
 
             if (!CommonValidator.IsValidId(id))
             {
-                scResult.ErrorMsg = "Invalid ID";
+                scResult.ErrorMsg = "ID is not valid";
                 scResult.ErrorTypes = SocialCodeErrorTypes.BadRequest;
                 return scResult;
             }
             
-            
-            var user = await _userRepository.GetUserById(id);
-
-            if (user is null)
-            {
-                scResult.ErrorMsg = "User not found";
-                scResult.ErrorTypes = SocialCodeErrorTypes.NotFound;
-                return scResult;
-            }
-
             var deletedUser = await _userRepository.DeleteUser(id);
 
             if (deletedUser is null)
             {
-                scResult.ErrorTypes = SocialCodeErrorTypes.Generic;
-                scResult.ErrorMsg = "Failed to delete user";
+                scResult.ErrorTypes = SocialCodeErrorTypes.NotFound;
+                scResult.ErrorMsg = "User not found";
+                return scResult;
             }
             
             scResult.Value = UserConverter.User_ToUserResponse(deletedUser);
@@ -81,7 +72,7 @@ namespace SocialCode.API.Services.Users
                 return scResult;
             }
             
-            if (UserValidator.IsValidUserDataRequest(updatedUserDataRequest))
+            if (!UserValidator.IsValidUserDataRequest(updatedUserDataRequest))
             {
                 scResult.ErrorMsg = "Invalid update user data request body";
                 scResult.ErrorTypes = SocialCodeErrorTypes.BadRequest;
@@ -94,7 +85,7 @@ namespace SocialCode.API.Services.Users
             var currentUser = await _userRepository.GetUserById(updatedUser.Id);
             if (currentUser is null)
             {
-                scResult.ErrorMsg = "Invalid request, user id not found";
+                scResult.ErrorMsg = "User not found";
                 scResult.ErrorTypes = SocialCodeErrorTypes.NotFound;
                 return scResult;
             }
