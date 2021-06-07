@@ -79,7 +79,8 @@ namespace SocialCode.Infrastructure.Repositories
             var test = filteredList.GroupBy(p => p.Id).Select(group => group.FirstOrDefault()).ToArray();
             Console.WriteLine(test.FirstOrDefault()?.Tags);
             
-            return listResult;
+            return listResult.Distinct();
         }
+        
     }
 }

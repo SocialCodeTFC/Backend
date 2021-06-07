@@ -1,11 +1,12 @@
 # SocialCode
 
-**Requirements**
+**Requirements**  
 
-* Docker
-* Docker-compose
-* Docker-engine
-* Dotnet SDK 3.1
+* [Docker](https://docs.docker.com/get-docker/)
+* [Docker-compose](https://docs.docker.com/compose/install/)
+* [Docker-engine](https://docs.docker.com/engine/install/)
+* [Dotnet SDK 3.1](https://dotnet.microsoft.com/download)  (If you want to debug API or run unit tests)
+* [JetBrains Rider](https://www.jetbrains.com/rider/download/) (Only if you want to debug the API)
 
 **Set up**  
 ```bash
@@ -19,15 +20,22 @@ _To start SocialCode.API & MongoDB:_
 _(If you are facing problems with docker-compose up, try executing with/without sudo)_
 
 ```bash
-sudo docker-compose -f docker-compose.yml up  //If you want to restore with any local change in the project, run with --build --remove-orphans 
-````  
-_If you want to run db locally:_
+sudo docker-compose -f docker-compose.yml up  //If you want to run with any local change in the project, run with --build --remove-orphans 
+````
+
+_In order to run the SocialCode api with Rider, open SocialCode.sln & replace "mongo.SocialCode" with "localhost" in the Host section of the appSettings.json file, then run_
 
 ```bash
 sudo docker-compose -f docker-compose.mongo.yml up 
 ````  
 
-_To see db active ports: ( dbuser: **socialCode** & password :**password**)_
-```bashd
+_To see db active ports: ( dbuser: **socialCode** & password: **password**)_
+
+```bash
 sudo docker ps 
+````  
+_To run unit tests:_
+
+```bashd
+dotnet test
 ````  

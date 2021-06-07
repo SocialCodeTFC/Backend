@@ -11,7 +11,6 @@ namespace SocialCode.UnitTesting
 {
     public class UserServiceTest
     {
-        
         [Fact]
         public async Task GetById_ValidID_ShouldReturn_SocialCodeResult()
         {

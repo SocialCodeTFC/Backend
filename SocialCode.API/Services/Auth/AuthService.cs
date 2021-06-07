@@ -52,8 +52,8 @@ namespace SocialCode.API.Services.Auth
 
             if (!PasswordUtils.IsValidPassword(user.Password, loginRequest.Password))
             {
-                scResult.ErrorTypes = SocialCodeErrorTypes.NotFound;
-                scResult.ErrorMsg = "The user password provided is not correct!";
+                scResult.ErrorTypes = SocialCodeErrorTypes.BadRequest;
+                scResult.ErrorMsg = "Passwords do not match";
                 return scResult;
             }
 
@@ -178,7 +178,7 @@ namespace SocialCode.API.Services.Auth
                 return scResult;
             }
 
-            //Match Betwwen tokenRequest token & user Token
+            //Match Between tokenRequest token & user Token
             if (!refreshTokenRequest.RefreshToken.Equals(user.RefreshToken))
             {
                 scResult.ErrorTypes = SocialCodeErrorTypes.BadRequest;
@@ -190,7 +190,7 @@ namespace SocialCode.API.Services.Auth
             var userTokens = GenerateNewTokens(user);
 
             //Validate tokens
-            if (userTokens.FirstOrDefault() is null || userTokens.LastOrDefault() is null)
+            if (userTokens is null || userTokens.FirstOrDefault() is null || userTokens.LastOrDefault() is null)
             {
                 scResult.ErrorTypes = SocialCodeErrorTypes.Generic;
                 scResult.ErrorMsg = "Failed creating user tokens";
