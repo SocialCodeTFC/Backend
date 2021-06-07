@@ -530,11 +530,13 @@ namespace SocialCode.API.Services.Posts
 
         private async Task SetCommentsToPostResponse(PostResponse postResponse, IList<string> commentsId)
         {
-            if (!(commentsId is null) || commentsId.Any())
+            if (commentsId?.FirstOrDefault() is null) return;
+            
+            if (commentsId.Any())
             {
                 postResponse.Comments = await _commentService.GetManyCommentsByIds(commentsId);
             }
-           
+
         }
 
         private async Task SetCommentsToManyPostResponses()

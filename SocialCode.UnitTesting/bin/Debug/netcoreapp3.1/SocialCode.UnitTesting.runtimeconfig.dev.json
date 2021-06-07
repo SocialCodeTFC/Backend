@@ -1,8 +1,0 @@
-{
-  "runtimeOptions": {
-    "additionalProbingPaths": [
-      "/home/RED/mvarela/.dotnet/store/|arch|/|tfm|",
-      "/home/RED/mvarela/.nuget/packages"
-    ]
-  }
-}
