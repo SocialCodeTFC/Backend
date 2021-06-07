@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 using SocialCode.Domain.Comment;
@@ -21,7 +22,23 @@ namespace SocialCode.Infrastructure.Repositories
             var comment = await result.FirstOrDefaultAsync();
             return comment ?? null;
         }
+        public async Task<IEnumerable<Comment>> GetManyCommentGetCommentsByIds(IEnumerable<string> postIds)
+        {
+            var comments = new List<Comment>();
+            foreach (var id in postIds)
+            {
+                var cursor = await _context.Comments.FindAsync(c => c.Id == id);
+                var comment = cursor.FirstOrDefault();
+                if (comment is null)
+                {
+                    break;
+                }
+                comments.Add(comment);
+            }
 
+            return !comments.Any() ? null : comments;
+        }
+        
         public async Task<Comment> Insert(Comment comment)
         {
             await _context.Comments.InsertOneAsync(comment);
@@ -44,11 +61,6 @@ namespace SocialCode.Infrastructure.Repositories
             return !insertResult.IsAcknowledged ? null : updatedComment;
         }
 
-        public async Task<IEnumerable<Comment>> GetCommentsByPostId(string postId)
-        {
-            var comments = await _context.Comments.FindAsync(c => c.PostId == postId);
-            var commentsList = await comments?.ToListAsync();
-            return commentsList;
-        }
+        
     }
 }

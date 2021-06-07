@@ -34,9 +34,6 @@ namespace SocialCode.API
 {
     public class Startup
     {
-        
-        readonly string CorsConfig = "_myAllowSpecificOrigins";
-        
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;

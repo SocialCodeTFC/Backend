@@ -9,10 +9,13 @@ namespace SocialCode.API.Services.Posts
     {
         Task<SocialCodeResult<PostResponse>> Insert(PostRequest insertRequest);
         Task<SocialCodeResult<PostResponse>> GetPostById(string id);
-        Task<SocialCodeResult<PostResponse>> DeletePost(string id);
-        Task<SocialCodeResult<PostResponse>> ModifyPost(string id, PostRequest updatedPost);
+        Task<SocialCodeResult<PostResponse>> DeletePost(string id, string userId);
+        Task<SocialCodeResult<PostResponse>> ModifyPost(string id, PostRequest updatedPost, string userId);
         Task<SocialCodeResult<IEnumerable<PostResponse>>> GetAllUserPosts(string id);
         Task<SocialCodeResult<PaginatedResult<PostResponse>>> GetRecentPosts(int limit, int offset);
         Task<SocialCodeResult<PaginatedResult<PostResponse>>> GetPostsByTags(TagFilters tags, int limit, int offset);
+        Task<SocialCodeResult<IEnumerable<PostResponse>>> GetUserSavedPosts(string userId);
+        Task<SocialCodeResult<PostResponse>> AddPostToUserSavedPosts(SavePostRequest savePostRequest);
+
     }
 }

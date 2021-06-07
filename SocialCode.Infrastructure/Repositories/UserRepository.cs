@@ -58,19 +58,5 @@ namespace SocialCode.Infrastructure.Repositories
             var user = await result.FirstOrDefaultAsync();
             return user;
         }
-        public async Task<IEnumerable<User>> GetByLikedPost(string postID)
-        {
-            var result = await _context.Users.FindAsync(u => u.LikedPosts.Any(u => u.Id == postID));
-            var users = await result?.ToListAsync();
-
-            return users ?? null;
-        }
-        public async Task<IEnumerable<User>> GetByPurchasedPost(string postID)
-        {
-            var result = await _context.Users.FindAsync(u => u.PurchasedPosts.Any(u => u.Id == postID));
-            var users = await result?.ToListAsync();
-            return users ?? null;
-        }
-        
     }
 }

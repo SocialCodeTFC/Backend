@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using SocialCode.API.Requests.Posts;
 using SocialCode.API.Services.Posts;
 
@@ -45,9 +46,9 @@ namespace SocialCode.API.Controllers
         }
 
         [HttpDelete("{id:length(24)}")]
-        public async Task<IActionResult> DeletePost(string id)
+        public async Task<IActionResult> DeletePost(string id, [FromQuery]string userId)
         {
-            var postServiceResult = await _postService.DeletePost(id);
+            var postServiceResult = await _postService.DeletePost(id, userId);
 
             if (!postServiceResult.IsValid())
             {
@@ -59,9 +60,9 @@ namespace SocialCode.API.Controllers
         }
 
         [HttpPut("edit/{id:length(24)}")]
-        public async Task<IActionResult> ModifyPost([FromBody] PostRequest editedPost, string id)
+        public async Task<IActionResult> ModifyPost([FromBody] PostRequest editedPost, string id, [FromQuery] string userId)
         {
-            var postServiceResult = await _postService.ModifyPost(id, editedPost);
+            var postServiceResult = await _postService.ModifyPost(id, editedPost, userId);
 
             if (!postServiceResult.IsValid())
             {
@@ -73,7 +74,7 @@ namespace SocialCode.API.Controllers
         }
 
         [HttpGet("user/{userId:length(24)}")]
-        public async Task<IActionResult> GetAllUserPosts(string userId) 
+        public async Task<IActionResult> GetAllUserPosts(string userId)
         {
             var postServiceResult = await _postService.GetAllUserPosts(userId);
             if (!postServiceResult.IsValid())
@@ -95,6 +96,7 @@ namespace SocialCode.API.Controllers
                 return ControllerUtils.ControllerUtils.TranslateErrorToResponseStatus(postServiceResult.ErrorTypes,
                     postServiceResult.ErrorMsg);
             }
+
             return new OkObjectResult(postServiceResult.Value);
         }
 
@@ -108,8 +110,37 @@ namespace SocialCode.API.Controllers
                 return ControllerUtils.ControllerUtils.TranslateErrorToResponseStatus(postServiceResult.ErrorTypes,
                     postServiceResult.ErrorMsg);
             }
+
             return new OkObjectResult(postServiceResult.Value);
         }
-        
+
+        [HttpGet("saved/{userId:length(24)}")]
+        public async Task<IActionResult> GetUserSavedPost(string userId)
+        {
+            var postServiceResult = await _postService.GetUserSavedPosts(userId);
+            
+            if (!postServiceResult.IsValid())
+            {
+                return ControllerUtils.ControllerUtils.TranslateErrorToResponseStatus(postServiceResult.ErrorTypes,
+                    postServiceResult.ErrorMsg);
+            }
+
+            return new OkObjectResult(postServiceResult.Value);
+        }
+
+        [HttpPost("save")]
+        public async Task<IActionResult> AddPostToUserSavedPosts([FromBody] SavePostRequest savePostRequest )
+        {
+            var postServiceResult = await _postService.AddPostToUserSavedPosts(savePostRequest);
+            
+            if (!postServiceResult.IsValid())
+            {
+                return ControllerUtils.ControllerUtils.TranslateErrorToResponseStatus(postServiceResult.ErrorTypes,
+                    postServiceResult.ErrorMsg);
+            }
+
+            return new OkObjectResult(postServiceResult.Value);
+        }
+
     }
 }

@@ -26,6 +26,25 @@ namespace SocialCode.Infrastructure.Repositories
             var post = await _context.Posts.FindAsync(p => p.Id == id);
             return await post.FirstOrDefaultAsync();
         }
+        public async Task<IEnumerable<Post>> GetManyPostByIds(IEnumerable<string> postIds)
+        {
+            var posts = new List<Post>();
+
+            foreach (var id in postIds)
+            {
+                var cursor = await _context.Posts.FindAsync(p => p.Id == id);
+                var post = cursor.FirstOrDefault();
+                
+                if (post is null)
+                {
+                    break;
+                }
+                
+                posts.Add(post);
+            }
+            
+            return posts.Count() >= 0 ? posts : null;
+        }
         public async Task<Post> ModifyPost(Post updatedPost, string id)
         {
             var post = await _context.Posts.FindAsync(e => e.Id == id);
@@ -77,8 +96,7 @@ namespace SocialCode.Infrastructure.Repositories
             }
 
             var test = filteredList.GroupBy(p => p.Id).Select(group => group.FirstOrDefault()).ToArray();
-            Console.WriteLine(test.FirstOrDefault()?.Tags);
-            
+
             return listResult.Distinct();
         }
         

@@ -22,7 +22,7 @@ namespace SocialCode.API.Converters
                 Tags = postRequest.Tags.ToList(),
                 AuthorID = originalPost.AuthorID,
                 IsDeleted = originalPost.IsDeleted,
-                Comments = originalPost.Comments,
+                CommentIds = originalPost.CommentIds,
                 Timestamp = originalPost.Timestamp
             };
         }
@@ -38,6 +38,7 @@ namespace SocialCode.API.Converters
                 Timestamp = post.Timestamp,
                 IsFree = post.IsFree,
                 Tags = post.Tags,
+                
                 
             };
         }

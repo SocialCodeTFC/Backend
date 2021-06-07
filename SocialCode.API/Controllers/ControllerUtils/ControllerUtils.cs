@@ -1,6 +1,6 @@
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using SocialCode.API.Requests;
-using SocialCode.API.Requests.Posts;
 
 namespace SocialCode.API.Controllers.ControllerUtils
 {
@@ -17,10 +17,17 @@ namespace SocialCode.API.Controllers.ControllerUtils
                     case SocialCodeErrorTypes.NotFound:
                         return new NotFoundObjectResult(errMsg);
                     case SocialCodeErrorTypes.Forbidden:
-                        return new UnauthorizedObjectResult(errMsg);
+                        return Result(HttpStatusCode.Forbidden, errMsg);
                     default:
                         return new StatusCodeResult(501);
                 }
             }
+        
+        private static ActionResult Result(HttpStatusCode statusCode, string reason) => new ContentResult
+        {
+            StatusCode = (int)statusCode,
+            Content = $"Status Code: {(int)statusCode}; {statusCode}; {reason}",
+            ContentType = "text/plain",
+        };
     }
 }
