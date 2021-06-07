@@ -469,7 +469,7 @@ namespace SocialCode.API.Services.Posts
             {
                 var postResponse = PostConverter.Post_ToPostResponse(post);
                 SetAuthorReferencesToPostResponse(postResponse, author);
-                SetCommentsToPostResponse(postResponse, post.CommentIds);
+                await SetCommentsToPostResponse(postResponse, post.CommentIds);
                 scResult.Value = postResponse;
                 return scResult;
             }
@@ -539,9 +539,10 @@ namespace SocialCode.API.Services.Posts
 
         }
 
-        private async Task SetCommentsToManyPostResponses()
+        private /*async*/ Task SetCommentsToManyPostResponses()
         {
-            
+            return null;
+            //Todo: Method
         }
         
     }
