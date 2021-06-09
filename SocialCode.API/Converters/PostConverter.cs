@@ -10,7 +10,7 @@ namespace SocialCode.API.Converters
         public static Post PostRequest_ToModifiedPost(PostRequest postRequest, Post originalPost)
         {
             if (postRequest is null || originalPost is null) return null;
-                    
+
             return new Post
             {
                 Id = originalPost.Id,
@@ -22,7 +22,6 @@ namespace SocialCode.API.Converters
                 Tags = postRequest.Tags.ToList(),
                 AuthorID = originalPost.AuthorID,
                 IsDeleted = originalPost.IsDeleted,
-                CommentIds = originalPost.CommentIds,
                 Timestamp = originalPost.Timestamp
             };
         }
@@ -37,15 +36,8 @@ namespace SocialCode.API.Converters
                 Title = post.Title,
                 Timestamp = post.Timestamp,
                 IsFree = post.IsFree,
-                Tags = post.Tags,
-                
-                
+                Tags = post.Tags
             };
-        }
-        public static IEnumerable<PostResponse> PostList_ToPostResponseList(IEnumerable<Post> postsList)
-        {
-            var postResponseList = postsList.Select(Post_ToPostResponse).ToList();
-            return postResponseList;
         }
         public static Post PostRequest_ToPost(PostRequest postRequest)
         {

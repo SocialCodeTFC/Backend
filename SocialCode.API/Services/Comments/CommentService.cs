@@ -30,16 +30,14 @@ namespace SocialCode.API.Services.Comments
         {
             var scResult = new SocialCodeResult<CommentResponse>();
 
-            if (!CommonValidator.IsValidId(commentRequest?.AuthorId) ||
-                !CommonValidator.IsValidId(commentRequest?.PostId) || commentRequest?.Content is null)
+            if (!CommonValidator.IsValidId(commentRequest?.PostId) || commentRequest?.Content is null)
             {
                 scResult.ErrorMsg = "Invalid insert post request!";
                 scResult.ErrorTypes = SocialCodeErrorTypes.BadRequest;
                 return scResult;
             }
-
-            //Comprobamos que existen tanto autor como post a los que referencia la request
-            var author = await _userRepository.GetUserById(commentRequest.AuthorId);
+            
+            var author = await _userRepository.GetUserByUsername(commentRequest.Username);
             var post = await _postRepository.GetPostById(commentRequest.PostId);
 
             if (author is null)
@@ -58,8 +56,9 @@ namespace SocialCode.API.Services.Comments
 
             var comment = CommentConverter.CommentRequest_ToComment(commentRequest);
             comment.Timestamp = DateTime.Now.ToString("g");
-
-
+            comment.AuthorUsername = author.Username;
+            comment.PostId = post.Id;
+            
             var insertedComment = await _commentRepository.Insert(comment);
 
             if (insertedComment is null)
@@ -68,42 +67,45 @@ namespace SocialCode.API.Services.Comments
                 scResult.ErrorTypes = SocialCodeErrorTypes.Generic;
                 return scResult;
             }
-
-            if (post.CommentIds is null)
-                post.CommentIds = new List<string> {comment.Id};
-            else
-                post.CommentIds.Add(comment.Id);
-
-
-            var updatedPost = await _postRepository.ModifyPost(post, post.Id);
-            if (updatedPost is null)
-            {
-                scResult.ErrorMsg = "Failed updating post comment list";
-                scResult.ErrorTypes = SocialCodeErrorTypes.Generic;
-                return scResult;
-            }
-
+            
             var commentResponse = CommentConverter.Comment_ToCommentResponse(insertedComment);
-            var updatedCommentResponse = SetUserReference(commentResponse, author);
-            scResult.Value = updatedCommentResponse;
+            scResult.Value = commentResponse;
             return scResult;
         }
 
-        public async Task<IEnumerable<CommentResponse>> GetManyCommentsByIds(IList<string> commentsIds)
+        public async Task<SocialCodeResult<IEnumerable<CommentResponse>>> GetCommentsByPostId(string postId)
         {
-            var comments = await _commentRepository.GetManyCommentGetCommentsByIds(commentsIds.ToList());
-            return comments is null ? null : comments.Select(CommentConverter.Comment_ToCommentResponse).ToList();
+            var scResult = new SocialCodeResult<IEnumerable<CommentResponse>>();
+
+            if(!CommonValidator.IsValidId(postId))
+            {
+                scResult.ErrorMsg = "Post id is not valid!";
+                scResult.ErrorTypes = SocialCodeErrorTypes.BadRequest;
+                return scResult;
+            }
+
+            var comments = await _commentRepository.GetCommentByPostId(postId);
+            
+            if (comments is null)
+            {
+                scResult.ErrorMsg = "Post does not contains any comment!";
+                scResult.ErrorTypes = SocialCodeErrorTypes.NotFound;
+                return scResult;
+            }
+            
+            scResult.Value = CommentConverter.CommentList_ToCommentResponseList(comments);
+            
+
+            return scResult;
         }
 
-        public Task<SocialCodeResult<CommentResponse>> GetCommentById(CommentRequest commentRequest)
+        public Task<IEnumerable<CommentResponse>> GetManyCommentsByIds(IList<string> commentsIds)
         {
             throw new NotImplementedException();
         }
         
-        private static CommentResponse SetUserReference(CommentResponse commentResponse, User author)
+        public Task<SocialCodeResult<CommentResponse>> GetCommentById(CommentRequest commentRequest)
         {
-            commentResponse.AuthorUsername = author.Username;
-            return commentResponse;
-        }
-    }
+            throw new NotImplementedException();
+        } }
 }

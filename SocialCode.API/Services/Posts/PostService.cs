@@ -107,7 +107,6 @@ namespace SocialCode.API.Services.Posts
 
                 scResult.Value = PostConverter.Post_ToPostResponse(post);
                 SetAuthorReferencesToPostResponse(scResult.Value, author);
-                await SetCommentsToPostResponse(scResult.Value, post.CommentIds);
 
                 return scResult;
             }
@@ -167,7 +166,6 @@ namespace SocialCode.API.Services.Posts
 
                 scResult.Value = PostConverter.Post_ToPostResponse(deletedPost);
                 SetAuthorReferencesToPostResponse(scResult.Value, author);
-                await SetCommentsToPostResponse(scResult.Value, post.CommentIds);
             }
             catch (Exception)
             {
@@ -249,7 +247,7 @@ namespace SocialCode.API.Services.Posts
             {
                 scResult.Value = PostConverter.Post_ToPostResponse(post);
                 SetAuthorReferencesToPostResponse(scResult.Value, author);
-                await SetCommentsToPostResponse(scResult.Value, modifiedPost.CommentIds);
+                
                 return scResult;
             }
 
@@ -369,6 +367,7 @@ namespace SocialCode.API.Services.Posts
 
             return scResult;
         }
+        
         public async Task<SocialCodeResult<IEnumerable<PostResponse>>> GetUserSavedPosts(string userId)
         {
             var scResult = new SocialCodeResult<IEnumerable<PostResponse>>();
@@ -453,9 +452,7 @@ namespace SocialCode.API.Services.Posts
             {
                 user.SavedPostsIds.Add(post.Id);   
             }
-
             
-
             var modifiedUser = await _userRepository.ModifyUser(savePostRequest.UserId, user);
 
             if (modifiedUser is null)
@@ -469,7 +466,6 @@ namespace SocialCode.API.Services.Posts
             {
                 var postResponse = PostConverter.Post_ToPostResponse(post);
                 SetAuthorReferencesToPostResponse(postResponse, author);
-                await SetCommentsToPostResponse(postResponse, post.CommentIds);
                 scResult.Value = postResponse;
                 return scResult;
             }
@@ -515,35 +511,16 @@ namespace SocialCode.API.Services.Posts
                 var postResponse = PostConverter.Post_ToPostResponse(post);
                 postResponse.AuthorName = author.FirstName;
                 postResponse.AuthorUsername = author.Username;
-                await SetCommentsToPostResponse(postResponse, post.CommentIds);
 
                 postResponseList.Add(postResponse);
             }
 
             return postResponseList;
         }
-
+        
         private bool UserIsAuthor(Post post, string userID)
         {
             return post is { } && userID.Equals(post.AuthorID);
         }
-
-        private async Task SetCommentsToPostResponse(PostResponse postResponse, IList<string> commentsId)
-        {
-            if (commentsId?.FirstOrDefault() is null) return;
-            
-            if (commentsId.Any())
-            {
-                postResponse.Comments = await _commentService.GetManyCommentsByIds(commentsId);
-            }
-
-        }
-
-        private /*async*/ Task SetCommentsToManyPostResponses()
-        {
-            return null;
-            //Todo: Method
-        }
-        
     }
 }

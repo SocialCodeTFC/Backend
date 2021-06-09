@@ -52,7 +52,7 @@ namespace SocialCode.Infrastructure.Repositories
             
             return updatedUser;
         }
-        public async Task<User> GetByUsername(string username)
+        public async Task<User> GetUserByUsername(string username)
         {
             var result = await _context.Users.FindAsync(x => x.Username == username);
             var user = await result.FirstOrDefaultAsync();

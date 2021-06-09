@@ -16,6 +16,5 @@ namespace SocialCode.API.Requests.Posts
         public string AuthorUsername { get; set; }
         public IEnumerable<string> Tags { get; set; }
         
-        public IEnumerable<CommentResponse> Comments { get; set; }
     }
 }

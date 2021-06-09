@@ -39,9 +39,9 @@ namespace SocialCode.API.Services.Auth
                 scResult.ErrorMsg = "Login request is not valid";
                 return scResult;
             }
-            
+
             //Get user from Db
-            var user = await _userRepository.GetByUsername(loginRequest.Username);
+            var user = await _userRepository.GetUserByUsername(loginRequest.Username);
 
             if (user is null)
             {
@@ -74,8 +74,9 @@ namespace SocialCode.API.Services.Auth
             var updatedUser = await _userRepository.ModifyUser(user.Id, user);
             if (updatedUser is null)
             {
-                scResult.ErrorMsg = "Cant update user Tokens";
+                scResult.ErrorMsg = "Failed to update user Tokens";
                 scResult.ErrorTypes = SocialCodeErrorTypes.Generic;
+                return scResult;
             }
 
             //Return dto with token & refresh token
@@ -90,7 +91,7 @@ namespace SocialCode.API.Services.Auth
             return scResult;
         }
 
-        public async Task<SocialCodeResult<AuthResponse>> Register(RegisterRequest registerRequest) 
+        public async Task<SocialCodeResult<AuthResponse>> Register(RegisterRequest registerRequest)
         {
             var scResult = new SocialCodeResult<AuthResponse>();
 
@@ -103,20 +104,13 @@ namespace SocialCode.API.Services.Auth
 
             //Convert & SaveUser
             var user = UserConverter.RegisterRequest_ToUser(registerRequest);
-            var insertedUser = await _userRepository.Insert(user);
 
-            if (insertedUser is null)
-            {
-                scResult.ErrorTypes = SocialCodeErrorTypes.BadRequest;
-                scResult.ErrorMsg = "Existing user with same email or username, Email & Username are unique per user";
-                return scResult;
-            }
 
             //Generate user tokens
-            var userTokens = GenerateNewTokens(insertedUser);
+            var userTokens = GenerateNewTokens(user);
 
             //Validate tokens
-            if (userTokens.FirstOrDefault() is null || userTokens.LastOrDefault() is null)
+            if (userTokens is null || userTokens.FirstOrDefault() is null || userTokens.LastOrDefault() is null)
             {
                 scResult.ErrorTypes = SocialCodeErrorTypes.Generic;
                 scResult.ErrorMsg = "Failed creating user tokens";
@@ -124,28 +118,28 @@ namespace SocialCode.API.Services.Auth
             }
 
             //UpdateUser tokens
-            insertedUser.Token = userTokens.FirstOrDefault();
-            insertedUser.RefreshToken = userTokens.LastOrDefault();
+            user.Token = userTokens.FirstOrDefault();
+            user.RefreshToken = userTokens.LastOrDefault();
 
             //Encrypt user password
             var encryptedPassword = PasswordUtils.HashPassword(user.Password);
             user.Password = encryptedPassword;
 
             //Save updated user
-            var updatedUser = await _userRepository.ModifyUser(insertedUser.Id, insertedUser);
-            if (updatedUser is null)
+            var insertedUser = await _userRepository.Insert(user);
+            if (insertedUser is null)
             {
-                scResult.ErrorTypes = SocialCodeErrorTypes.Generic;
-                scResult.ErrorMsg = "Error saving user Tokens & EncryptedPassword";
+                scResult.ErrorTypes = SocialCodeErrorTypes.BadRequest;
+                scResult.ErrorMsg = "Existing username or email";
                 return scResult;
             }
 
             scResult.Value = new AuthResponse
             {
-                Id = updatedUser.Id,
-                Token = updatedUser.Token,
-                Username = updatedUser.Username,
-                RefreshToken = updatedUser.RefreshToken
+                Id = insertedUser.Id,
+                Token = insertedUser.Token,
+                Username = insertedUser.Username,
+                RefreshToken = insertedUser.RefreshToken
             };
 
             return scResult;
@@ -165,8 +159,8 @@ namespace SocialCode.API.Services.Auth
 
             if (!CommonValidator.IsValidId(refreshTokenRequest.UserId))
             {
-                scResult.ErrorTypes = SocialCodeErrorTypes.NotFound;
-                scResult.ErrorMsg = "User id doesn't match with any userID in DB";
+                scResult.ErrorTypes = SocialCodeErrorTypes.BadRequest;
+                scResult.ErrorMsg = "Invalid user ID";
                 return scResult;
             }
 
@@ -174,7 +168,7 @@ namespace SocialCode.API.Services.Auth
             if (user is null)
             {
                 scResult.ErrorTypes = SocialCodeErrorTypes.NotFound;
-                scResult.ErrorMsg = "Refresh request ID doesn't match with any user ID in database!";
+                scResult.ErrorMsg = "User not found";
                 return scResult;
             }
 
@@ -225,18 +219,17 @@ namespace SocialCode.API.Services.Auth
             byte[] key;
             try
             {
-                 key = Encoding.ASCII.GetBytes(_config.GetSection("JwtKey")?.ToString());
+                key = Encoding.ASCII.GetBytes(_config.GetSection("JwtKey")?.ToString());
             }
             catch (Exception)
             {
                 return null;
             }
-            
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                    new Claim("Id", user.Id),
                     new Claim(JwtRegisteredClaimNames.Email, user.Email)
                 }),
                 Expires = DateTime.UtcNow.AddHours(2),
@@ -266,7 +259,16 @@ namespace SocialCode.API.Services.Auth
         private bool IsValidToken(RefreshTokenRequest refreshTokenRequest)
         {
             var jwtTokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_config.GetSection("JwtKey").ToString());
+            byte[] key;
+            try
+            {
+                key = Encoding.ASCII.GetBytes(_config.GetSection("JwtKey").ToString());
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
             var tokenValidationParams = new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,

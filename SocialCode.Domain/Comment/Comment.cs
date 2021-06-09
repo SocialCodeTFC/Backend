@@ -8,7 +8,8 @@ namespace SocialCode.Domain.Comment
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
-        public string AuthorId { get; set; }
+        
+        public string AuthorUsername { get; set; }
         public string PostId { get; set; }
         public string Content{ get; set; }
         public string Timestamp{ get; set; }
