@@ -26,7 +26,7 @@ namespace SocialCode.Infrastructure.Repositories
             var post = await _context.Posts.FindAsync(p => p.Id == id);
             return await post.FirstOrDefaultAsync();
         }
-        public async Task<IEnumerable<Post>> GetManyPostByIds(IEnumerable<string> postIds)
+        public async Task<IEnumerable<Post>> GetPostsByIds(IEnumerable<string> postIds)
         {
             var posts = new List<Post>();
 
@@ -75,10 +75,8 @@ namespace SocialCode.Infrastructure.Repositories
         public async Task<IEnumerable<Post>> GetRecentPosts(int limit, int offset)
         {
             var posts = await _context.Posts.FindAsync(_ => true);
-            var postsList = await posts.ToListAsync();
-            postsList.OrderByDescending(p => p.Timestamp).Take(limit-offset);
-            
-            return postsList ?? null;
+            var postsList = await posts?.ToListAsync();
+            return postsList?.Skip(offset).Take(limit).OrderBy(p => p.Timestamp) ?? null;
         }
         public async Task<IEnumerable<Post>> GetPostByTagFilter(List<string> tags, int limit, int offset)
         {
@@ -94,10 +92,8 @@ namespace SocialCode.Infrastructure.Repositories
                     listResult.AddRange(filteredList);
                 }
             }
-
-            var test = filteredList.GroupBy(p => p.Id).Select(group => group.FirstOrDefault()).ToArray();
-
-            return listResult.Distinct();
+            
+            return listResult.Distinct().Skip(offset).Take(limit);
         }
         
     }

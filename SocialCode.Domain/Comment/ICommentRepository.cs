@@ -10,6 +10,7 @@ namespace SocialCode.Domain.Comment
         Task<Comment> DeleteComment(string id);
         Task<Comment> ModifyComment(Comment updatedComment, string id);
         Task<IEnumerable<Comment>> GetCommentByPostId(string postId);
+        Task<IEnumerable<Comment>> GetCommentsByUsername(string username);
 
     }
 }

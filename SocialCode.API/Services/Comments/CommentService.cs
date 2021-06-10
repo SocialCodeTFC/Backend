@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using SocialCode.API.Converters;
 using SocialCode.API.Requests;
@@ -36,7 +35,7 @@ namespace SocialCode.API.Services.Comments
                 scResult.ErrorTypes = SocialCodeErrorTypes.BadRequest;
                 return scResult;
             }
-            
+
             var author = await _userRepository.GetUserByUsername(commentRequest.Username);
             var post = await _postRepository.GetPostById(commentRequest.PostId);
 
@@ -58,7 +57,7 @@ namespace SocialCode.API.Services.Comments
             comment.Timestamp = DateTime.Now.ToString("g");
             comment.AuthorUsername = author.Username;
             comment.PostId = post.Id;
-            
+
             var insertedComment = await _commentRepository.Insert(comment);
 
             if (insertedComment is null)
@@ -67,7 +66,7 @@ namespace SocialCode.API.Services.Comments
                 scResult.ErrorTypes = SocialCodeErrorTypes.Generic;
                 return scResult;
             }
-            
+
             var commentResponse = CommentConverter.Comment_ToCommentResponse(insertedComment);
             scResult.Value = commentResponse;
             return scResult;
@@ -77,7 +76,7 @@ namespace SocialCode.API.Services.Comments
         {
             var scResult = new SocialCodeResult<IEnumerable<CommentResponse>>();
 
-            if(!CommonValidator.IsValidId(postId))
+            if (!CommonValidator.IsValidId(postId))
             {
                 scResult.ErrorMsg = "Post id is not valid!";
                 scResult.ErrorTypes = SocialCodeErrorTypes.BadRequest;
@@ -85,27 +84,50 @@ namespace SocialCode.API.Services.Comments
             }
 
             var comments = await _commentRepository.GetCommentByPostId(postId);
-            
+
             if (comments is null)
             {
                 scResult.ErrorMsg = "Post does not contains any comment!";
                 scResult.ErrorTypes = SocialCodeErrorTypes.NotFound;
                 return scResult;
             }
-            
+
             scResult.Value = CommentConverter.CommentList_ToCommentResponseList(comments);
-            
+
 
             return scResult;
         }
 
-        public Task<IEnumerable<CommentResponse>> GetManyCommentsByIds(IList<string> commentsIds)
+        public async Task<SocialCodeResult<IEnumerable<CommentResponse>>> GetCommentsByUsername(string username)
         {
-            throw new NotImplementedException();
+            var scResult = new SocialCodeResult<IEnumerable<CommentResponse>>();
+
+            if (username is null || !username.Contains("@"))
+            {
+                scResult.ErrorMsg = "InvalidUsername";
+                scResult.ErrorTypes = SocialCodeErrorTypes.BadRequest;
+                return scResult;
+            }
+
+            var author = await _userRepository.GetUserByUsername(username);
+            
+            if (author is null)
+            {
+                scResult.ErrorTypes = SocialCodeErrorTypes.NotFound;
+                scResult.ErrorMsg = "User not found";
+                return scResult;
+            }
+            var comments = await _commentRepository.GetCommentsByUsername(username);
+
+            if (comments is null)
+            {
+                scResult.ErrorMsg = "Failed to get comments";
+                scResult.ErrorTypes = SocialCodeErrorTypes.Generic;
+                return scResult;
+            }
+
+            scResult.Value = CommentConverter.CommentList_ToCommentResponseList(comments);
+            return scResult;
         }
-        
-        public Task<SocialCodeResult<CommentResponse>> GetCommentById(CommentRequest commentRequest)
-        {
-            throw new NotImplementedException();
-        } }
+    }
 }

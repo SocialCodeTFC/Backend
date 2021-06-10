@@ -1,5 +1,4 @@
-using SocialCode.API.Requests.Users.Auth;
-using SocialCode.API.Requests.Users.Register;
+using SocialCode.API.Requests.Auth;
 
 namespace SocialCode.API.Validators.Auth
 {
@@ -20,7 +19,7 @@ namespace SocialCode.API.Validators.Auth
             if (string.IsNullOrWhiteSpace(registerRequest.Password) ||
                 string.IsNullOrWhiteSpace(registerRequest.Username) ||
                 string.IsNullOrWhiteSpace(registerRequest.FirstName) ||
-                string.IsNullOrWhiteSpace(registerRequest.LastName) ||
+                registerRequest.LastName is null ||
                 string.IsNullOrWhiteSpace(registerRequest.Email) ||
                 string.IsNullOrEmpty(registerRequest.RepeatPassword))
                 return false;

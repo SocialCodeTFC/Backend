@@ -9,8 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using SocialCode.API.Converters;
 using SocialCode.API.Requests;
-using SocialCode.API.Requests.Users.Auth;
-using SocialCode.API.Requests.Users.Register;
+using SocialCode.API.Requests.Auth;
 using SocialCode.API.Validators;
 using SocialCode.API.Validators.Auth;
 using SocialCode.Domain.User;
@@ -264,7 +263,7 @@ namespace SocialCode.API.Services.Auth
             {
                 key = Encoding.ASCII.GetBytes(_config.GetSection("JwtKey").ToString());
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }

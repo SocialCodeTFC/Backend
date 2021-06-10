@@ -72,7 +72,7 @@ namespace SocialCode.API.Services.Users
                 return scResult;
             }
             
-            if (!UserValidator.IsValidUserDataRequest(updatedUserDataRequest))
+            if (!UserDataRequestValidator.IsValidUserDataRequest(updatedUserDataRequest))
             {
                 scResult.ErrorMsg = "Invalid update user data request body";
                 scResult.ErrorTypes = SocialCodeErrorTypes.BadRequest;

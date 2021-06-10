@@ -5,10 +5,8 @@ using System.Threading.Tasks;
 using SocialCode.API.Converters;
 using SocialCode.API.Requests;
 using SocialCode.API.Requests.Posts;
-using SocialCode.API.Services.Comments;
 using SocialCode.API.Validators;
 using SocialCode.API.Validators.Post;
-using SocialCode.Domain.Comment;
 using SocialCode.Domain.Post;
 using SocialCode.Domain.User;
 
@@ -18,13 +16,11 @@ namespace SocialCode.API.Services.Posts
     {
         private readonly IPostRepository _postRepository;
         private readonly IUserRepository _userRepository;
-        private readonly ICommentService _commentService;
 
-        public PostService(IPostRepository repository, IUserRepository userRepository, ICommentService commentService)
+        public PostService(IPostRepository repository, IUserRepository userRepository)
         {
             _postRepository = repository;
             _userRepository = userRepository;
-            _commentService = commentService;
         }
 
         public async Task<SocialCodeResult<PostResponse>> Insert(PostRequest postRequest)
@@ -38,7 +34,7 @@ namespace SocialCode.API.Services.Posts
                 return scResult;
             }
 
-            if (!PostValidator.IsValidPostRequest(postRequest))
+            if (!PostRequestValidator.IsValidPostRequest(postRequest))
             {
                 scResult.ErrorTypes = SocialCodeErrorTypes.BadRequest;
                 scResult.ErrorMsg = "Invalid body in the request!";
@@ -186,7 +182,7 @@ namespace SocialCode.API.Services.Posts
                 return scResult;
             }
 
-            if (!PostValidator.IsValidPostRequest(postRequest))
+            if (!PostRequestValidator.IsValidPostRequest(postRequest))
             {
                 scResult.ErrorTypes = SocialCodeErrorTypes.BadRequest;
                 scResult.ErrorMsg = "Invalid updatedPostData in the request";
@@ -280,7 +276,7 @@ namespace SocialCode.API.Services.Posts
 
             if (CanReturnManyPosts(filteredPosts))
             {
-                var result = await GetPostResponse_WithAuthorAndComment_References(filteredPosts);
+                var result = await GetPostResponses_WithAuthorReferences(filteredPosts);
                 if (result is null)
                 {
                     scResult.ErrorMsg = "Failed to get post author reference";
@@ -318,10 +314,12 @@ namespace SocialCode.API.Services.Posts
                 return scResult;
             }
 
-            var postResponseList = await GetPostResponse_WithAuthorAndComment_References(filteredPostsList);
+            var postResponseList = await GetPostResponses_WithAuthorReferences(filteredPostsList);
 
             scResult.Value = new PaginatedResult<PostResponse>
             {
+                Offset = offset,
+                Limit = limit,
                 Items = postResponseList
             };
 
@@ -358,10 +356,12 @@ namespace SocialCode.API.Services.Posts
                 return scResult;
             }
 
-            var result = await GetPostResponse_WithAuthorAndComment_References(filteredPostList);
+            var result = await GetPostResponses_WithAuthorReferences(filteredPostList);
 
             scResult.Value = new PaginatedResult<PostResponse>
             {
+                Offset = offset,
+                Limit = limit,
                 Items = result
             };
 
@@ -396,7 +396,7 @@ namespace SocialCode.API.Services.Posts
             }
             
             //Obtener en base a los ids de los posts la lista de posts
-            var userSavedPosts = await _postRepository.GetManyPostByIds(userSavedPostsIds);
+            var userSavedPosts = await _postRepository.GetPostsByIds(userSavedPostsIds);
             
             var filteredPostResponse = RemoveDeletedPostsFromList(userSavedPosts);
             
@@ -407,7 +407,7 @@ namespace SocialCode.API.Services.Posts
                 return scResult;
             }
 
-            var postResponseList = await GetPostResponse_WithAuthorAndComment_References(filteredPostResponse);
+            var postResponseList = await GetPostResponses_WithAuthorReferences(filteredPostResponse);
 
             scResult.Value = postResponseList;
             return scResult;
@@ -498,7 +498,7 @@ namespace SocialCode.API.Services.Posts
             postResponse.AuthorUsername = postAuthor.Username;
         }
 
-        private async Task<List<PostResponse>> GetPostResponse_WithAuthorAndComment_References(IEnumerable<Post> posts)
+        private async Task<List<PostResponse>> GetPostResponses_WithAuthorReferences(IEnumerable<Post> posts)
         {
             var postResponseList = new List<PostResponse>();
 

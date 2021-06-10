@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using SocialCode.API.Requests.Comments;
 using SocialCode.Domain.Comment;
-using SocialCode.Domain.User;
 
 namespace SocialCode.API.Converters
 {
@@ -34,5 +33,6 @@ namespace SocialCode.API.Converters
         {
             return comments?.Select(Comment_ToCommentResponse).ToList();
         }
+        
     }
 }

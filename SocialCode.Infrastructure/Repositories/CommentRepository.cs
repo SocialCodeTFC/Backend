@@ -48,5 +48,11 @@ namespace SocialCode.Infrastructure.Repositories
             if (comments is null || comments.Count().Equals(0)) return null;
             return comments;
         }
+        public async Task<IEnumerable<Comment>> GetCommentsByUsername(string username)
+        {
+            var cursor = await _context.Comments.FindAsync(c => c.AuthorUsername == username);
+            var comments = await cursor?.ToListAsync();
+            return comments;
+        }
     }
 }

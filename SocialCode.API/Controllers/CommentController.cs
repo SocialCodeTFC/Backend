@@ -41,5 +41,17 @@ namespace SocialCode.API.Controllers
                     commentServiceResult.ErrorMsg);
             return new OkObjectResult(commentServiceResult.Value);
         }
+        
+        
+        [HttpGet("username/{username}")]
+        public async Task<IActionResult> GetCommentsByPostUsername(string username)
+        {
+            var commentServiceResult = await _commentService.GetCommentsByUsername(username);
+
+            if (!commentServiceResult.IsValid())
+                return ControllerUtils.ControllerUtils.TranslateErrorToResponseStatus(commentServiceResult.ErrorTypes,
+                    commentServiceResult.ErrorMsg);
+            return new OkObjectResult(commentServiceResult.Value);
+        }
     }
 }

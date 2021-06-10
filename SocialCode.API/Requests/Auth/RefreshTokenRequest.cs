@@ -1,4 +1,4 @@
-namespace SocialCode.API.Requests.Users.Auth
+namespace SocialCode.API.Requests.Auth
 {
     public class RefreshTokenRequest
     {

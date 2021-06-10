@@ -7,7 +7,7 @@ namespace SocialCode.Domain.Post
     public interface IPostRepository
     {
         Task<Post> GetPostById(string id);
-        Task<IEnumerable<Post>> GetManyPostByIds(IEnumerable<string> postIds);
+        Task<IEnumerable<Post>> GetPostsByIds(IEnumerable<string> postIds);
         Task<Post> Insert(Post post);
         Task<Post> DeletePost(string id);
         Task<Post> ModifyPost(Post updatedPost, string id);

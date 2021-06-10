@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using SocialCode.API.Requests;
-using SocialCode.API.Requests.Users.Auth;
-using SocialCode.API.Requests.Users.Register;
+using SocialCode.API.Requests.Auth;
 
 namespace SocialCode.API.Services.Auth
 {

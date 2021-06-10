@@ -2,7 +2,7 @@ using SocialCode.API.Requests.Users;
 
 namespace SocialCode.API.Validators.User
 {
-    public static class UserValidator
+    public static class UserDataRequestValidator
     {
         public static bool IsValidUserDataRequest(UserDataRequest userDataRequest)
         {
